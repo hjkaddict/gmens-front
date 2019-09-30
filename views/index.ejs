@@ -42,9 +42,25 @@
             color: white;
         }
 
-        .boxSample1 {
+        .inputBox {
             position: absolute;
-            top: 50%;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35%;
+            float: left;
+            text-align: left;
+            /* border-width: thin;
+            border-style: groove;
+            border-color: red; */
+            padding: 1px;
+            background-color: transparent;
+            margin: 0px;
+        }
+
+        .submitBox {
+            position: absolute;
+            top: 52%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 35%;
@@ -68,7 +84,7 @@
         .logoImgBox {
             position: absolute;
             top: 80%;
-            left: 10%;
+            left: 15%;
             transform: translate(-50%, -50%);
         }
     </style>
@@ -80,7 +96,7 @@
 
     <!--THREE-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.js"></script>
-    <script src="/Detector.js"></script>
+    <script src="lib/Detector.js"></script>
     <script src="lib/TrackballControls.js"></script>
 
     <div class="imgBox">
@@ -96,7 +112,7 @@
 
         <form action="/upload" method="POST" enctype="multipart/form-data">
 
-            <div class="file-field input-field boxSample1">
+            <div class="file-field input-field inputBox">
                 <div class="btn grey">
                     <span>Image</span>
                     <input name="myImage" type="file">
@@ -105,17 +121,17 @@
                 <div class="file-path-wrapper">
                     <input class="file-path custom" type="text" placeholder="">
                 </div>
-                <div class="input-field uploadbtn">
-                    <button type="submit" class="btn green">Submit</button>
-                </div>
 
+            </div>
+            <div class="input-field submitBox">
+                <button type="submit" class="btn green">Submit</button>
             </div>
         </form>
 
     </div>
 
     <div class="logoImgBox">
-        <img src="/img/gm-logo.png" width="250">
+        <a href="https://gmens-middle.herokuapp.com/" target="_blank"><img src="/img/gm-logo.png" width="250"></a>
     </div>
 
 
@@ -128,6 +144,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="lib/threeGeoJSON.js"></script>
-<script src="/earth.js"></script>
+<script src="lib/earth.js"></script>
 
 </html>
