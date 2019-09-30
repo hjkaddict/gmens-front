@@ -5,9 +5,7 @@ const multer = require('multer')
 const multerS3 = require('multer-s3-transform')
 const path = require('path')
 const ejs = require('ejs')
-const Jimp = require('jimp')
 const sharp = require('sharp')
-
 
 aws.config.update({
     secretAccessKey: process.env.AWSSecretKey,
@@ -16,6 +14,7 @@ aws.config.update({
 })
 
 const s3 = new aws.S3()
+
 
 const upload = multer({
     storage: multerS3({
@@ -27,12 +26,6 @@ const upload = multer({
 
         //* add a function 'Please upload .jpg .jpeg .png' here
 
-        // fileFilter: function (req, file, cb) {
-        //     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-        //         return cb(new Error('Only image files are allowed!'));
-        //     }
-        //     cb(null, true);
-        // },
 
         shouldTransform: function (req, file, cb) {
             cb(null, /^image/i.test(file.mimetype))
@@ -50,17 +43,16 @@ const upload = multer({
             },
             transform: function (req, file, cb) {
                 cb(null, sharp().jpeg({
-                    quality: 10,
-                })                  
+                    quality: 50,
+                })
+                    .resize(500)
                     .modulate({ hue: 120 }))
             }
         }]
     })
 })
 
-
 // Init app
-
 const app = express()
 app.set('view engine', 'ejs')
 
@@ -71,22 +63,32 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.post('/upload', upload.single('myImage'), (req, res, next) => {
+// // 비동기형식이기 때문에 기존방식대로 코딩을 하면 불러올 수 없다.
+// // 다른 방식을 사용해야 할 것 연구! 
 
+// s3.listObjectsV2({ Bucket: 'gmens-test-1' }, function (err, data) {
+//     if (err) {
+//         console.log(err, err.stack); // an error occurred
+//     } else {
+//         console.log(data)
+//     }
+// })
+
+
+
+app.post('/upload', upload.single('myImage'), (req, res, next) => {
 
     if (!req.file) {
         res.render('index', {
             msg: 'Error: No File Selected!'
         })
     } else {
-       
         res.render('index', {
             msg: 'File Uploaded!',
             imgUrl: req.file.transforms[0].location
-          
+
         })
     }
-
 })
 
 

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-    <title>GMens-test</title>
+    <title>GMe&s</title>
 
     <meta meta name="viewport" content="width=device-width, user-scalable=no" />
     <style>
@@ -27,17 +27,49 @@
         }
 
         h1 {
-            font-size: 20px;
+            font-size: 25px;
             color: aliceblue;
+            text-align: center;
         }
 
         h2 {
             font-size: 15px;
             color: aliceblue;
+            text-align: center;
         }
 
         .custom {
             color: white;
+        }
+
+        .boxSample1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35%;
+            float: left;
+            text-align: left;
+            /* border-width: thin;
+            border-style: groove;
+            border-color: red; */
+            padding: 1px;
+            background-color: transparent;
+            margin: 0px;
+        }
+
+        .imgBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logoImgBox {
+            position: absolute;
+            top: 80%;
+            left: 10%;
+            transform: translate(-50%, -50%);
         }
     </style>
 
@@ -51,39 +83,51 @@
     <script src="/Detector.js"></script>
     <script src="lib/TrackballControls.js"></script>
 
+    <div class="imgBox">
+        <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
+    </div>
     <div id="webgl"></div>
 
+
+
     <div class="container">
-        <div class="input-field">
-            <h1>GMens Testing</h1>
-            <h2><%= typeof msg != 'undefined' ? msg : '' %></h2>
-        </div>
+        <!--<h1>GM E&S</h1>-->
+        <h2><%= typeof msg != 'undefined' ? msg : '' %></h2>
+
         <form action="/upload" method="POST" enctype="multipart/form-data">
-            <div class="file-field input-field">
-                <div class="btn green">
+
+            <div class="file-field input-field boxSample1">
+                <div class="btn grey">
                     <span>Image</span>
                     <input name="myImage" type="file">
                 </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate custom" type="text">
-                </div>
-            </div>
-            <div class="input-field">
-                <button type="submit" class="btn">Submit</button>
-            </div>
 
+                <div class="file-path-wrapper">
+                    <input class="file-path custom" type="text" placeholder="">
+                </div>
+                <div class="input-field uploadbtn">
+                    <button type="submit" class="btn green">Submit</button>
+                </div>
+
+            </div>
         </form>
-        
-        <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
+
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!--jQeury-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        <script src="lib/threeGeoJSON.js"></script>
-    <script src="/earth_1.js"></script>
-    
+
+    <div class="logoImgBox">
+        <img src="/img/gm-logo.png" width="250">
+    </div>
+
+
+
+
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--jQeury-->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="lib/threeGeoJSON.js"></script>
+<script src="/earth_1.js"></script>
 
 </html>

@@ -1,3 +1,4 @@
+
 /* Draw GeoJSON
 
 Iterates through the latitude and longitude values, converts the values to XYZ coordinates, and draws the geoJSON geometries.
