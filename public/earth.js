@@ -1,102 +1,102 @@
-// Created by Bjorn Sandvik - thematicmapping.org
 (function () {
 
-	var webglEl = document.getElementById('webgl');
+    var webglEl = document.getElementById('webgl');
 
-	if (!Detector.webgl) {
-		Detector.addGetWebGLMessage(webglEl);
-		return;
-	}
+    if (!Detector.webgl) {
+        Detector.addGetWebGLMessage(webglEl);
+        return;
+    }
 
-	var width = window.innerWidth,
-		height = window.innerHeight;
+    //New scene and camera
 
-	// Earth params
-	var radius = 0.8,
-		segments = 32,
-		rotation = 2.5;
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
 
-	var scene = new THREE.Scene();
-	//scene.background = new THREE.Color(0xff0000);
+    //New Renderer
+    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-	var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 1000);
-	camera.position.z = 2.0;
+    var planet = new THREE.Object3D();
 
-	var renderer = new THREE.WebGLRenderer( {alpha:false});
-	renderer.setSize(width, height);
-
-	// Light setup
-	var light = new THREE.DirectionalLight(0xffffff, 0.5);
-	light.position.set(5, 3, 5);
-	scene.add(light);
-	scene.add(new THREE.AmbientLight(0xffffff, 1));
-
-	var sphere = createSphere(radius, segments);
-	sphere.rotation.y = rotation;
-	scene.add(sphere)
-
-	var clouds = createClouds(radius, segments);
-	clouds.rotation.y = rotation;
-	scene.add(clouds)
-
-
-
-	var geom = new THREE.BoxGeometry(0.5, 0.5, 0.0001);
+    //Create a sphere to make visualization easier.
+    var geometry = new THREE.SphereGeometry(10, 32, 32);
     var material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00
-        //map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/5d4052a9-1cc9-4498-b339-307c02efc7dc_dull_1569614631660.jpg'),
+        color: 0x333333,
+        wireframe: false,
+        transparent: true,
+        opacity: 0.0
     });
-    
-    var cube = new THREE.Mesh(geom, material);
-    cube.position.copy(new THREE.Vector3(0, 0, 0));
-    cube.lookAt(new THREE.Vector3(0, 0, 0));
+    var sphere = new THREE.Mesh(geometry, material);
 
-	//scene.add(cube);
-	
+    planet.add(sphere);
 
+    function latLongToVector3(lat_, lon_, radius_, heigth_) {
+        var phi = (lat_) * Math.PI / 180;
+        var theta = (lon_ - 180) * Math.PI / 180;
 
-	var controls = new THREE.TrackballControls(camera);
+        var x = -(radius_ + heigth_) * Math.cos(phi) * Math.cos(theta);
+        var y = (radius_ + heigth_) * Math.sin(phi);
+        var z = (radius_ + heigth_) * Math.cos(phi) * Math.sin(theta);
 
-	webglEl.appendChild(renderer.domElement);
-
-	render();
-
-	function render() {
-		controls.update();
-		sphere.rotation.y += 0.0005;
-		clouds.rotation.y += 0.0005;
-		requestAnimationFrame(render);
-		renderer.render(scene, camera);
-	}
-
-	function createSphere(radius, segments) {
-		const loader = new THREE.TextureLoader();
-		return new THREE.Mesh(
-			new THREE.SphereGeometry(radius, segments, segments),
-			new THREE.MeshPhongMaterial({
-				map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/2_no_clouds_4k-removed.png'),
-				transparent: true,
-				side: THREE.DoubleSide,
-				//bumpMap: THREE.ImageUtils.loadTexture('https://gmens-test-1.s3.eu-central-1.amazonaws.com/elev_bump_4k.jpg'),
-				//bumpScale: 0.005,
-				// specularMap: THREE.ImageUtils.loadTexture('https://gmens-test-1.s3.eu-central-1.amazonaws.com/water_4k.png'),
-				// specular: new THREE.Color('grey')
-			})
-		);
-	}
+        return new THREE.Vector3(x, y, z);
+    }
 
 
-	function createClouds(radius, segments) {
-		const loader = new THREE.TextureLoader();
-		return new THREE.Mesh(
-			
-			new THREE.SphereGeometry(radius + 0.003, segments, segments),
-			new THREE.MeshPhongMaterial({
-				map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/fair_clouds_4k.png'),
-				transparent: true,
-				side: THREE.DoubleSide
-			})
-		);
-	}
 
-}());
+
+    var lati = 7.326752
+    var long = 6.134813
+    var loc = latLongToVector3(lati, long - 90, 10, 0)
+
+    // //Create cube
+    // const loader = new THREE.TextureLoader();
+
+    // var geom = new THREE.BoxGeometry(0.5, 0.5, 0.0001);
+    // var material = new THREE.MeshBasicMaterial({
+    //     //color: 0x00ff00,
+    //     map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/philly_1569542850701_1569797314989.jpg'),
+    // });
+    // var cube = new THREE.Mesh(geom, material);
+    // cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
+    // cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+    // planet.add(cube);
+
+
+    //Draw the GeoJSON
+
+    $.getJSON("test_geojson/countries.json", function (data) {
+        drawThreeGeo(data, 10, 'sphere', {
+            color: 0xffffff,
+        }, planet);
+    });
+
+    // $.getJSON("test_geojson/rivers.geojson", function (data) {
+    //     drawThreeGeo(data, 10, 'sphere', {
+    //         color: 0x22AFFF,
+    //         transparent: true,
+    //         opacity: 0.4
+    //     }, planet);
+    // });
+
+    webglEl.appendChild(renderer.domElement);
+
+    scene.add(planet);
+
+    // testing
+
+    //Set the camera position
+    camera.position.z = 20;
+
+    //Enable controls
+    var controls = new THREE.TrackballControls(camera);
+
+    //Render the image
+    function render() {
+        controls.update();
+        requestAnimationFrame(render);
+        renderer.render(scene, camera);
+    }
+
+    render();
+})()
