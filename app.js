@@ -43,9 +43,9 @@ const upload = multer({
             },
             transform: function (req, file, cb) {
                 cb(null, sharp().jpeg({
-                    quality: 50,
+                    quality: 20,
                 })
-                    .resize(500)
+                    .resize(300)
                     .modulate({ hue: 120 }))
             }
         }]
@@ -90,7 +90,12 @@ const posts = [
 
 app.get('/', (req, res) => {
 
-    s3.listObjectsV2({ Bucket: 'gmens-test-1', MaxKeys: 1000 }, function (err, data) {
+    s3.listObjectsV2({
+        Bucket: 'gmens-test-1', 
+        MaxKeys: 1000, 
+        Prefix: '',
+        Delimiter: '/'
+    }, function (err, data) {
         if (err) {
             console.log(err, err.stack); // an error occurred
         } else {

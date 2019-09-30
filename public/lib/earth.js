@@ -6,6 +6,24 @@
         Detector.addGetWebGLMessage(webglEl);
         return;
     }
+    function shuffle(array) {
+        var i = array.length,
+            j = 0,
+            temp;
+    
+        while (i--) {
+    
+            j = Math.floor(Math.random() * (i+1));
+    
+            // swap randomly chosen element with current element
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+    
+        }
+    
+        return array;
+    }
 
     //New scene and camera
 
@@ -14,18 +32,106 @@
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
     var planet = new THREE.Object3D();
 
+    // //Create cube
+    console.log(imageUrlArray.length)
+
+    // for (let i = 0; i < imageUrlArray.length; i++) {
+    //     const loader = new THREE.TextureLoader();
+    //     loader.minFilter = THREE.LinearFilter;
+    //     var lati = 0
+    //     var long = 0 + (2 * i)
+    //     var loc = latLongToVector3(lati, long - 90, 10, -0.1)
+
+    //     var geom = new THREE.BoxGeometry(0.3, 0.3, 0.0001);
+    //     var material = new THREE.MeshBasicMaterial({
+    //         map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
+    //     });
+    //     var cube = new THREE.Mesh(geom, material);
+    //     cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
+    //     cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+    //     planet.add(cube);
+
+    // }
+
+
+    //dummy start
+    for (let j = 0; j < 15; j++) {
+        shuffle(imageUrlArray)
+        for (let i = 0; i < imageUrlArray.length; i++) {
+            const loader = new THREE.TextureLoader();
+            loader.minFilter = THREE.LinearFilter;
+            var lati = 5 * j
+            var long = 5 * i 
+            var loc = latLongToVector3(lati, long - 90, 10, -0.1)
+
+            var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
+            var material = new THREE.MeshBasicMaterial({
+                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
+                side: THREE.DoubleSide
+            });
+            var cube = new THREE.Mesh(geom, material);
+            cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
+            cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+            planet.add(cube);
+        }
+    }
+
+    for (let j = 0; j < 15; j++) {
+        shuffle(imageUrlArray)
+        for (let i = 0; i < imageUrlArray.length; i++) {
+            const loader = new THREE.TextureLoader();
+            loader.minFilter = THREE.LinearFilter;
+            var lati = 5 * j * -1
+            var long = (5 * i) 
+            var loc = latLongToVector3(lati, long - 90, 10, -0.1)
+
+            var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
+            var material = new THREE.MeshBasicMaterial({
+                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
+                side: THREE.DoubleSide
+            });
+            var cube = new THREE.Mesh(geom, material);
+            cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
+            cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+            planet.add(cube);
+        }
+    }
+
+
+
+
+
+    //dummy end
+
+
+
+
+
+
     //Create a sphere to make visualization easier.
     var geometry = new THREE.SphereGeometry(10, 32, 32);
+    var transpTexture = new THREE.TextureLoader();
+
     var material = new THREE.MeshBasicMaterial({
-        color: 0x333333,
-        wireframe: false,
+        map: transpTexture.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/imageData/2_no_clouds_4k+black.png', function (transpTexture) {
+            transpTexture.wrapS = THREE.RepeatWrapping;
+            transpTexture.wrapT = THREE.RepeatWrapping;
+            transpTexture.offset.set(0.25, 0)
+            transpTexture.repeat.set(1, 1)
+        }),
+        color: 0xffffff,
         transparent: true,
-        opacity: 0.0
+        opacity: 1.0
     });
+
     var sphere = new THREE.Mesh(geometry, material);
 
     planet.add(sphere);
@@ -42,58 +148,19 @@
     }
 
 
-    // //Create cube
-
-    for (let i = 0; i < imageUrlArray.length; i++) {
-        const loader = new THREE.TextureLoader();
-        var lati = 7.326752 
-        var long = 6.134813 + (3*i)
-        var loc = latLongToVector3(lati, long - 90, 10, 0)
-
-        var geom = new THREE.BoxGeometry(0.5, 0.5, 0.0001);
-        var material = new THREE.MeshBasicMaterial({
-            //color: 0x00ff00,
-            map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/'+imageUrlArray[i]),
-        });
-        var cube = new THREE.Mesh(geom, material);
-        cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-        cube.lookAt(new THREE.Vector3(0, 0, 0));
-
-        planet.add(cube);
-    }
-
-
-
-    // const loader = new THREE.TextureLoader();
-
-    // var geom = new THREE.BoxGeometry(0.5, 0.5, 0.0001);
-    // var material = new THREE.MeshBasicMaterial({
-    //     //color: 0x00ff00,
-    //     map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/philly_1569542850701_1569797314989.jpg'),
-    // });
-    // var cube = new THREE.Mesh(geom, material);
-    // cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-    // cube.lookAt(new THREE.Vector3(0, 0, 0));
-
-    // planet.add(cube);
-
-
-    //Draw the GeoJSON
-
     $.getJSON("test_geojson/countries.json", function (data) {
         drawThreeGeo(data, 10, 'sphere', {
-            color: 0xffffff,
-            light: true,
+            color: 0xffffff
         }, planet);
     });
 
-    $.getJSON("test_geojson/rivers.geojson", function (data) {
-        drawThreeGeo(data, 10, 'sphere', {
-            color: 0x22AFFF,
-            transparent: true,
-            opacity: 0.7
-        }, planet);
-    });
+    // $.getJSON("test_geojson/rivers.geojson", function (data) {
+    //     drawThreeGeo(data, 10, 'sphere', {
+    //         color: 0x22AFFF,
+    //         transparent: true,
+    //         opacity: 0.7
+    //     }, planet);
+    // });
 
     webglEl.appendChild(renderer.domElement);
 

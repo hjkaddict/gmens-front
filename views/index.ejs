@@ -107,10 +107,11 @@
 
     <script>
         const imageUrlArray = "<%=imgUrls%>".split(",")
-    </script>
 
+    </script>
+    
     <div class="container">
-        <!--<h1>GM E&S</h1>-->
+   
         <h2><%= typeof msg != 'undefined' ? msg : '' %></h2>
 
         <form action="/upload" method="POST" enctype="multipart/form-data">
@@ -132,10 +133,12 @@
         </form>
 
     </div>
-
+     
+    
     <div class="logoImgBox">
         <a href="https://gmens-middle.herokuapp.com/" target="_blank"><img src="/img/gm-logo.png" width="250"></a>
     </div>
+   
 
 
 

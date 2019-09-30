@@ -131,6 +131,7 @@ function drawParticle(x, y, z, options) {
     clearArrays();
 }
 
+
 function drawLine(x_values, y_values, z_values, options) {
     var line_geom = new THREE.Geometry();
     createVertexForEachPoint(line_geom, x_values, y_values, z_values);
