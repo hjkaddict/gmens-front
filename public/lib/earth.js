@@ -10,18 +10,18 @@
         var i = array.length,
             j = 0,
             temp;
-    
+
         while (i--) {
-    
-            j = Math.floor(Math.random() * (i+1));
-    
+
+            j = Math.floor(Math.random() * (i + 1));
+
             // swap randomly chosen element with current element
             temp = array[i];
             array[i] = array[j];
             array[j] = temp;
-    
+
         }
-    
+
         return array;
     }
 
@@ -65,14 +65,20 @@
         shuffle(imageUrlArray)
         for (let i = 0; i < imageUrlArray.length; i++) {
             const loader = new THREE.TextureLoader();
-            loader.minFilter = THREE.LinearFilter;
+            
             var lati = 5 * j
-            var long = -20 +(5 * i)
+            var long = -20 + (5 * i)
             var loc = latLongToVector3(lati, long - 90, 10, -0.1)
 
             var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
             var material = new THREE.MeshBasicMaterial({
-                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
+                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
+                    loader.wrapS = THREE.RepeatWrapping;
+                    loader.wrapT = THREE.RepeatWrapping;
+                    loader.offset.set(0, 0)
+                    loader.repeat.set(1, 1)
+                    loader.minFilter = THREE.LinearFilter;
+                }),
                 side: THREE.DoubleSide
             });
             var cube = new THREE.Mesh(geom, material);
@@ -89,12 +95,17 @@
             const loader = new THREE.TextureLoader();
             loader.minFilter = THREE.LinearFilter;
             var lati = 5 * j * -1
-            var long = -20 +(5 * i)
+            var long = -20 + (5 * i)
             var loc = latLongToVector3(lati, long - 90, 10, -0.1)
 
             var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
             var material = new THREE.MeshBasicMaterial({
-                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
+                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
+                    loader.wrapS = THREE.RepeatWrapping;
+                    loader.wrapT = THREE.RepeatWrapping;
+                    loader.offset.set(0, 0)
+                    loader.repeat.set(1, 1)
+                }),
                 side: THREE.DoubleSide
             });
             var cube = new THREE.Mesh(geom, material);
@@ -158,7 +169,7 @@
     //     drawThreeGeo(data, 10, 'sphere', {
     //         color: 0x22AFFF,
     //         transparent: true,
-    //         opacity: 0.7
+    //         opacity: 1
     //     }, planet);
     // });
 
