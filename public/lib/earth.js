@@ -67,7 +67,7 @@
             const loader = new THREE.TextureLoader();
             loader.minFilter = THREE.LinearFilter;
             var lati = 5 * j
-            var long = 5 * i 
+            var long = -20 +(5 * i)
             var loc = latLongToVector3(lati, long - 90, 10, -0.1)
 
             var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
@@ -89,7 +89,7 @@
             const loader = new THREE.TextureLoader();
             loader.minFilter = THREE.LinearFilter;
             var lati = 5 * j * -1
-            var long = (5 * i) 
+            var long = -20 +(5 * i)
             var loc = latLongToVector3(lati, long - 90, 10, -0.1)
 
             var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
