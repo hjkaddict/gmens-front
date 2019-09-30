@@ -59,20 +59,55 @@ app.set('view engine', 'ejs')
 // Public folder
 app.use(express.static('./public'))
 
+
+const posts = [
+    {
+        id: 1,
+        author: 'John',
+        title: 'Templating with EJS',
+        body: 'Blog post number 1'
+    },
+    {
+        id: 2,
+        author: 'Drake',
+        title: 'Express: Starting from the Bottom',
+        body: 'Blog post number 2'
+    },
+    {
+        id: 3,
+        author: 'Emma',
+        title: 'Streams',
+        body: 'Blog post number 3'
+    },
+    {
+        id: 4,
+        author: 'Cody',
+        title: 'Events',
+        body: 'Blog post number 4'
+    }
+]
+
+
 app.get('/', (req, res) => {
-    res.render('index')
+
+    s3.listObjectsV2({ Bucket: 'gmens-test-1', MaxKeys: 1000 }, function (err, data) {
+        if (err) {
+            console.log(err, err.stack); // an error occurred
+        } else {
+            const imgData = [];
+            var contents = data.Contents
+            contents.forEach(function (content) {
+                imgData.push(content.Key);
+            });
+            res.render('index', {
+                imgUrls: imgData
+            })
+        }
+    })
 })
 
 // // 비동기형식이기 때문에 기존방식대로 코딩을 하면 불러올 수 없다.
 // // 다른 방식을 사용해야 할 것 연구! 
-
-// s3.listObjectsV2({ Bucket: 'gmens-test-1' }, function (err, data) {
-//     if (err) {
-//         console.log(err, err.stack); // an error occurred
-//     } else {
-//         console.log(data)
-//     }
-// })
 
 
 
@@ -83,11 +118,24 @@ app.post('/upload', upload.single('myImage'), (req, res, next) => {
             msg: 'Error: No File Selected!'
         })
     } else {
-        res.render('index', {
-            msg: 'File Uploaded!',
-            imgUrl: req.file.transforms[0].location
 
+        s3.listObjectsV2({ Bucket: 'gmens-test-1', MaxKeys: 1000 }, function (err, data) {
+            if (err) {
+                console.log(err, err.stack); // an error occurred
+            } else {
+                const imgData = [];
+                var contents = data.Contents
+                contents.forEach(function (content) {
+                    imgData.push(content.Key);
+                });
+                res.render('index', {
+                    msg: 'File Uploaded!',
+                    imgUrl: req.file.transforms[0].location,
+                    imgUrls: imgData
+                })
+            }
         })
+
     }
 })
 

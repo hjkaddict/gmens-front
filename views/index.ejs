@@ -102,9 +102,12 @@
     <div class="imgBox">
         <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
     </div>
+
     <div id="webgl"></div>
 
-
+    <script>
+        const imageUrlArray = "<%=imgUrls%>".split(",")
+    </script>
 
     <div class="container">
         <!--<h1>GM E&S</h1>-->
