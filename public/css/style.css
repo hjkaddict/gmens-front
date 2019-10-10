@@ -1,0 +1,102 @@
+html, body {
+    background-color: black;
+    margin: auto 0;
+}
+
+nav {
+    float: left;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid white;
+    margin: 10px;
+    width: 300px;
+    height: 800px;
+    position: relative;
+}
+
+p {
+    font-family:'Bangla Sangam MN';
+    line-height: 1em;
+    margin: 0;
+    padding: 15px;
+}
+
+div#globe {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    border: 0px solid gold;
+    position: absolute !important;
+}
+
+h1 {
+    font-size: 25px;
+    color: aliceblue;
+    text-align: center;
+}
+
+h2 {
+    font-size: 15px;
+    color: aliceblue;
+    text-align: center;
+}
+
+.custom {
+    color: white;
+    
+}
+
+.inputBox {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    float: left;
+    text-align: left;
+    /* border-width: thin;
+            border-style: groove;
+            border-color: red; */
+    padding: 1px;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.submitBox {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    float: left;
+    text-align: left;
+    /* border-width: thin;
+            border-style: groove;
+            border-color: red; */
+    padding: 1px;
+    background-color: transparent;
+    margin: 0px;
+}
+
+.imgBox {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transform: translate(0%, 0%);
+}
+
+.imgBox2 {
+    position: relative;
+}
+
+.btn {
+    width: 130px;
+    text-align: center;
+}
+
+.logoImgBox {
+    position: absolute;
+    top: 80%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+}

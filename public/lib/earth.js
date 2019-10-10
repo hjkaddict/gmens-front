@@ -1,11 +1,12 @@
 (function () {
 
-    var webglEl = document.getElementById('webgl');
+    var webglEl = document.getElementById('globe');
 
     if (!Detector.webgl) {
         Detector.addGetWebGLMessage(webglEl);
         return;
     }
+
     function shuffle(array) {
         var i = array.length,
             j = 0,
