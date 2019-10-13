@@ -4,6 +4,7 @@
 Iterates through the latitude and longitude values, converts the values to XYZ coordinates, and draws the geoJSON geometries.
 
 */
+
 var scene = new THREE.Scene();
 
 var x_values = [];

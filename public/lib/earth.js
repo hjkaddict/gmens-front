@@ -1,9 +1,9 @@
 (function () {
 
-    var webglEl = document.getElementById('globe');
+    var globe = document.getElementById('globe');
 
     if (!Detector.webgl) {
-        Detector.addGetWebGLMessage(webglEl);
+        Detector.addGetWebGLMessage(globe);
         return;
     }
 
@@ -26,6 +26,7 @@
         return array;
     }
 
+
     //New scene and camera
 
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
@@ -34,106 +35,85 @@
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.sortObjects = false
+
+    //renderer.setClearColor(0xff0000, 1);
     document.body.appendChild(renderer.domElement);
 
     var planet = new THREE.Object3D();
 
-    // //Create cube
-    console.log(imageUrlArray.length)
 
-    // for (let i = 0; i < imageUrlArray.length; i++) {
-    //     const loader = new THREE.TextureLoader();
-    //     loader.minFilter = THREE.LinearFilter;
-    //     var lati = 0
-    //     var long = 0 + (2 * i)
-    //     var loc = latLongToVector3(lati, long - 90, 10, -0.1)
+    //Create CanvasTexture
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = 4096;
+    canvas.height = 2048;
 
-    //     var geom = new THREE.BoxGeometry(0.3, 0.3, 0.0001);
-    //     var material = new THREE.MeshBasicMaterial({
-    //         map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i]),
-    //     });
-    //     var cube = new THREE.Mesh(geom, material);
-    //     cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-    //     cube.lookAt(new THREE.Vector3(0, 0, 0));
+    shuffle(imageUrlArray)
 
-    //     planet.add(cube);
+    for (let i = 0; i < 128; i++) {
+        var loader = new THREE.ImageLoader();
+        loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/009F6E38-91BE-45E9-8EF7-EAAB41B729AA_1570203620315.jpeg', function (image) {
+            ctx.drawImage(image, 0 + 32*i, 1000, 28, 28)
+        },
+            undefined,
+            function () {
+                console.error('An error happend.')
+            })
+    }
 
+
+
+
+
+    text = new THREE.Texture(canvas);
+    var mat = new THREE.MeshBasicMaterial({ 
+        map: text, 
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 1.0,
+        depthWrite: false
+    });
+
+    //Create cubes
+
+    // for (let j = 0; j < 2; j++) {
+    //     shuffle(imageUrlArray)
+    //     for (let i = 0; i < imageUrlArray.length; i++) {
+    //         const loader = new THREE.TextureLoader();
+
+    //         var lati = 5 * j
+    //         var long = -20 + (5 * i)
+    //         var loc = latLongToVector3(lati, long - 90, 10, -0.1)
+
+    //         var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
+    //         var material = new THREE.MeshBasicMaterial({
+    //             map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
+    //                 loader.wrapS = THREE.RepeatWrapping;
+    //                 loader.wrapT = THREE.RepeatWrapping;
+    //                 loader.offset.set(0, 0)
+    //                 loader.repeat.set(1, 1)
+    //                 loader.minFilter = THREE.LinearFilter;
+    //             }),
+    //             side: THREE.DoubleSide
+    //         });
+    //         var cube = new THREE.Mesh(geom, material);
+    //         cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
+    //         cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+    //         planet.add(cube);
+    //     }
     // }
-
-
-    //dummy start
-    for (let j = 0; j < 15; j++) {
-        shuffle(imageUrlArray)
-        for (let i = 0; i < imageUrlArray.length; i++) {
-            const loader = new THREE.TextureLoader();
-            
-            var lati = 5 * j
-            var long = -20 + (5 * i)
-            var loc = latLongToVector3(lati, long - 90, 10, -0.1)
-
-            var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
-            var material = new THREE.MeshBasicMaterial({
-                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
-                    loader.wrapS = THREE.RepeatWrapping;
-                    loader.wrapT = THREE.RepeatWrapping;
-                    loader.offset.set(0, 0)
-                    loader.repeat.set(1, 1)
-                    loader.minFilter = THREE.LinearFilter;
-                }),
-                side: THREE.DoubleSide
-            });
-            var cube = new THREE.Mesh(geom, material);
-            cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-            cube.lookAt(new THREE.Vector3(0, 0, 0));
-
-            planet.add(cube);
-        }
-    }
-
-    for (let j = 0; j < 15; j++) {
-        shuffle(imageUrlArray)
-        for (let i = 0; i < imageUrlArray.length; i++) {
-            const loader = new THREE.TextureLoader();
-            loader.minFilter = THREE.LinearFilter;
-            var lati = 5 * j * -1
-            var long = -20 + (5 * i)
-            var loc = latLongToVector3(lati, long - 90, 10, -0.1)
-
-            var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
-            var material = new THREE.MeshBasicMaterial({
-                map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
-                    loader.wrapS = THREE.RepeatWrapping;
-                    loader.wrapT = THREE.RepeatWrapping;
-                    loader.offset.set(0, 0)
-                    loader.repeat.set(1, 1)
-                }),
-                side: THREE.DoubleSide
-            });
-            var cube = new THREE.Mesh(geom, material);
-            cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-            cube.lookAt(new THREE.Vector3(0, 0, 0));
-
-            planet.add(cube);
-        }
-    }
-
-
-
-
-
-    //dummy end
-
-
-
-
 
 
     //Create a sphere to make visualization easier.
     var geometry = new THREE.SphereGeometry(10, 32, 32);
+    var geometry2 = new THREE.SphereGeometry(10, 32, 32);
+
     var transpTexture = new THREE.TextureLoader();
 
     var material = new THREE.MeshBasicMaterial({
-        map: transpTexture.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/imageData/2_no_clouds_4k+black.png', function (transpTexture) {
+        map: transpTexture.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/imageData/2_no_clouds_4k_black2.png', function (transpTexture) {
             transpTexture.wrapS = THREE.RepeatWrapping;
             transpTexture.wrapT = THREE.RepeatWrapping;
             transpTexture.offset.set(0.25, 0)
@@ -141,12 +121,15 @@
         }),
         color: 0xffffff,
         transparent: true,
-        opacity: 1.0
+        opacity: 1.0,
+        depthWrite: false
     });
 
     var sphere = new THREE.Mesh(geometry, material);
+    var sphere2 = new THREE.Mesh(geometry2, mat)
 
     planet.add(sphere);
+    
 
     function latLongToVector3(lat_, lon_, radius_, heigth_) {
         var phi = (lat_) * Math.PI / 180;
@@ -159,26 +142,19 @@
         return new THREE.Vector3(x, y, z);
     }
 
-
+    // Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
         drawThreeGeo(data, 10, 'sphere', {
             color: 0xffffff
         }, planet);
     });
 
-    // $.getJSON("test_geojson/rivers.geojson", function (data) {
-    //     drawThreeGeo(data, 10, 'sphere', {
-    //         color: 0x22AFFF,
-    //         transparent: true,
-    //         opacity: 1
-    //     }, planet);
-    // });
+    globe.appendChild(renderer.domElement);
 
-    webglEl.appendChild(renderer.domElement);
-
+    scene.add(sphere2)
     scene.add(planet);
 
-    // testing
+
 
     //Set the camera position
     camera.position.z = 20;
@@ -191,6 +167,8 @@
         controls.update();
         requestAnimationFrame(render);
         renderer.render(scene, camera);
+        text.needsUpdate = true;
+        text.minFilter = THREE.LinearFilter;
     }
 
     render();

@@ -20,6 +20,7 @@ const upload = multer({
     storage: multerS3({
         s3: s3,
         bucket: 'gmens-test-1',
+        region: 'eu-central-1',
         acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         limits: { fileSize: 5000000 },
@@ -59,33 +60,6 @@ app.set('view engine', 'ejs')
 // Public folder
 app.use(express.static('./public'))
 
-
-const posts = [
-    {
-        id: 1,
-        author: 'John',
-        title: 'Templating with EJS',
-        body: 'Blog post number 1'
-    },
-    {
-        id: 2,
-        author: 'Drake',
-        title: 'Express: Starting from the Bottom',
-        body: 'Blog post number 2'
-    },
-    {
-        id: 3,
-        author: 'Emma',
-        title: 'Streams',
-        body: 'Blog post number 3'
-    },
-    {
-        id: 4,
-        author: 'Cody',
-        title: 'Events',
-        body: 'Blog post number 4'
-    }
-]
 
 
 app.get('/', (req, res) => {
