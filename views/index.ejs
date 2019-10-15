@@ -19,13 +19,17 @@
     <script src="lib/TrackballControls.js"></script>
 
     <script>
-        function preview_image(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('output_image');
-                output.src = reader.result;
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(event.target.files[0]);
         }
     </script>
 
@@ -41,14 +45,14 @@
                 tellus elementum faucibus. In vel feugiat lectus, eget imperdiet dolor. Curabitur euismod finibus velit,
                 dapibus varius sapien cursus vitae. Suspendisse quis urna non lorem bibendum elementum.</p>
 
-<!-- 
+            <!-- 
             <div class="imgBox">
                 <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
             </div> -->
 
             <div class="imgBox2"
                 style="margin:1em; padding:15px; border: 1px solid white; width: 270px; height: 200px; ">
-                <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
+                <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
 
             </div>
 
@@ -65,7 +69,7 @@
                         </div> -->
 
                         <span> Upload </span>
-                        <input name="myImage" type="file">
+                        <input name="myImage" type="file" onchange="readURL(this);" />
 
 
                     </div>
