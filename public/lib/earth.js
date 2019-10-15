@@ -23,19 +23,17 @@
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
-      }
+    }
 
     //New scene and camera
-
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 10000);
 
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.sortObjects = false
+  
 
-    //renderer.setClearColor(0xff0000, 1);
     document.body.appendChild(renderer.domElement);
 
     var planet = new THREE.Object3D();
@@ -52,69 +50,30 @@
         for (let i = 0; i < data.length; i++) {
             var loader = new THREE.ImageLoader();
             loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[getRandomInt(imageUrlArray.length)], function (image) {
-                ctx.drawImage(image, (data[i].FIELD2-32)*32, data[i].FIELD1*32, 28, 28)
+                ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
+                //ctx.drawImage(image, (data[i].FIELD2 - 32) * 32, data[i].FIELD1 * 32, 28, 28)
+
             },
                 undefined,
                 function () {
                     console.error('An error happend.')
                 })
         }
-        
     });
 
+    text = new THREE.CanvasTexture(canvas);
+    text.wrapS = THREE.RepeatWrapping;
+    text.wrapT = THREE.RepeatWrapping;
+    text.offset.set(0.25, 0)
+    text.repeat.set(1, 1)
 
-    // for (let j = 0; j < 64; j++) {
-    //     for (let i = 0; i < 128; i++) {
-    //         var loader = new THREE.ImageLoader();
-    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/009F6E38-91BE-45E9-8EF7-EAAB41B729AA_1570203620315.jpeg', function (image) {
-    //             ctx.drawImage(image, 0 + 32 * i, (32*j), 28, 28)
-    //         },
-    //             undefined,
-    //             function () {
-    //                 console.error('An error happend.')
-    //             })
-    //     }
-    // }
-
-    text = new THREE.Texture(canvas);
     var mat = new THREE.MeshBasicMaterial({
         map: text,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 1.0,
-        depthWrite: false
+        depthWrite: true
     });
-
-    //Create cubes
-
-    // for (let j = 0; j < 2; j++) {
-    //     shuffle(imageUrlArray)
-    //     for (let i = 0; i < imageUrlArray.length; i++) {
-    //         const loader = new THREE.TextureLoader();
-
-    //         var lati = 5 * j
-    //         var long = -20 + (5 * i)
-    //         var loc = latLongToVector3(lati, long - 90, 10, -0.1)
-
-    //         var geom = new THREE.PlaneGeometry(0.7, 0.8, 2);
-    //         var material = new THREE.MeshBasicMaterial({
-    //             map: loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (loader) {
-    //                 loader.wrapS = THREE.RepeatWrapping;
-    //                 loader.wrapT = THREE.RepeatWrapping;
-    //                 loader.offset.set(0, 0)
-    //                 loader.repeat.set(1, 1)
-    //                 loader.minFilter = THREE.LinearFilter;
-    //             }),
-    //             side: THREE.DoubleSide
-    //         });
-    //         var cube = new THREE.Mesh(geom, material);
-    //         cube.position.copy(new THREE.Vector3(loc.x, loc.y, loc.z));
-    //         cube.lookAt(new THREE.Vector3(0, 0, 0));
-
-    //         planet.add(cube);
-    //     }
-    // }
-
 
     //Create a sphere to make visualization easier.
     var geometry = new THREE.SphereGeometry(10, 32, 32);
@@ -131,26 +90,29 @@
         }),
         color: 0xffffff,
         transparent: true,
-        opacity: 1.0,
-        depthWrite: false
+        opacity: 1.0
     });
 
-    var sphere = new THREE.Mesh(geometry, material);
     var sphere2 = new THREE.Mesh(geometry2, mat)
+    var sphere = new THREE.Mesh(geometry, material);
 
+
+    planet.add(sphere2);
     planet.add(sphere);
 
 
-    function latLongToVector3(lat_, lon_, radius_, heigth_) {
-        var phi = (lat_) * Math.PI / 180;
-        var theta = (lon_ - 180) * Math.PI / 180;
 
-        var x = -(radius_ + heigth_) * Math.cos(phi) * Math.cos(theta);
-        var y = (radius_ + heigth_) * Math.sin(phi);
-        var z = (radius_ + heigth_) * Math.cos(phi) * Math.sin(theta);
 
-        return new THREE.Vector3(x, y, z);
-    }
+    // function latLongToVector3(lat_, lon_, radius_, heigth_) {
+    //     var phi = (lat_) * Math.PI / 180;
+    //     var theta = (lon_ - 180) * Math.PI / 180;
+
+    //     var x = -(radius_ + heigth_) * Math.cos(phi) * Math.cos(theta);
+    //     var y = (radius_ + heigth_) * Math.sin(phi);
+    //     var z = (radius_ + heigth_) * Math.cos(phi) * Math.sin(theta);
+
+    //     return new THREE.Vector3(x, y, z);
+    // }
 
     // Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
@@ -163,24 +125,27 @@
 
     globe.appendChild(renderer.domElement);
 
-    scene.add(sphere2)
+    //scene.add(sphere2)
     scene.add(planet);
 
 
 
+
+
     //Set the camera position
-    camera.position.z = 20;
+    camera.position.z = 18;
 
     //Enable controls
     var controls = new THREE.TrackballControls(camera);
 
     //Render the image
     function render() {
+        text.needsUpdate = true;
+        text.minFilter = THREE.LinearFilter;
         controls.update();
         requestAnimationFrame(render);
         renderer.render(scene, camera);
-        text.needsUpdate = true;
-        text.minFilter = THREE.LinearFilter;
+
     }
 
     render();
