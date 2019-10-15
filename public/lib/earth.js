@@ -41,15 +41,31 @@
     //Create CanvasTexture
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
-    canvas.width = 4096;
-    canvas.height = 2048;
+    canvas.width = 2048;
+    canvas.height = 1024;
 
     //shuffle(imageUrlArray)
+
+    $.getJSON("test_geojson/imgPosition.json", function (data) {
+        for (let i = 0; i < data.length; i++) {
+            var loader = new THREE.ImageLoader();
+            let randNum = getRandomInt(imageUrlArray.length);
+            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
+                ctx.drawImage(image, data[i].FIELD2 * 16, data[i].FIELD1 * 16, 14, 14)
+            },
+                undefined,
+                function () {
+                    console.error('An error happend.')
+                })
+        }
+    });
+
 
     // $.getJSON("test_geojson/imgPosition.json", function (data) {
     //     for (let i = 0; i < data.length; i++) {
     //         var loader = new THREE.ImageLoader();
-    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[getRandomInt(imageUrlArray.length)], function (image) {
+    //         let randNum = getRandomInt(imageUrlArray.length);
+    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
     //             ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
     //         },
     //             undefined,
@@ -58,20 +74,6 @@
     //             })
     //     }
     // });
-
-    $.getJSON("test_geojson/imgPosition.json", function (data) {
-        for (let i = 0; i < data.length; i++) {
-            var loader = new THREE.ImageLoader();
-            let randNum = getRandomInt(imageUrlArray.length);
-            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
-                ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
-            },
-                undefined,
-                function () {
-                    console.error('An error happend.')
-                })
-        }
-    });
 
     text = new THREE.CanvasTexture(canvas);
     text.wrapS = THREE.RepeatWrapping;
