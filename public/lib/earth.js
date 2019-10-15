@@ -44,15 +44,27 @@
     canvas.width = 4096;
     canvas.height = 2048;
 
-    shuffle(imageUrlArray)
+    //shuffle(imageUrlArray)
+
+    // $.getJSON("test_geojson/imgPosition.json", function (data) {
+    //     for (let i = 0; i < data.length; i++) {
+    //         var loader = new THREE.ImageLoader();
+    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[getRandomInt(imageUrlArray.length)], function (image) {
+    //             ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
+    //         },
+    //             undefined,
+    //             function () {
+    //                 console.error('An error happend.')
+    //             })
+    //     }
+    // });
 
     $.getJSON("test_geojson/imgPosition.json", function (data) {
         for (let i = 0; i < data.length; i++) {
             var loader = new THREE.ImageLoader();
-            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[getRandomInt(imageUrlArray.length)], function (image) {
+            let randNum = getRandomInt(imageUrlArray.length);
+            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
                 ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
-                //ctx.drawImage(image, (data[i].FIELD2 - 32) * 32, data[i].FIELD1 * 32, 28, 28)
-
             },
                 undefined,
                 function () {
@@ -76,8 +88,8 @@
     });
 
     //Create a sphere to make visualization easier.
-    var geometry = new THREE.SphereGeometry(10, 32, 32);
-    var geometry2 = new THREE.SphereGeometry(10, 32, 32);
+    var geometry = new THREE.SphereGeometry(10, 64, 64);
+    var geometry2 = new THREE.SphereGeometry(10, 64, 64);
 
     var transpTexture = new THREE.TextureLoader();
 
@@ -136,7 +148,7 @@
     camera.position.z = 18;
 
     //Enable controls
-    var controls = new THREE.TrackballControls(camera);
+    var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
     //Render the image
     function render() {

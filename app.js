@@ -65,8 +65,8 @@ app.use(express.static('./public'))
 app.get('/', (req, res) => {
 
     s3.listObjectsV2({
-        Bucket: 'gmens-test-1', 
-        MaxKeys: 1000, 
+        Bucket: 'gmens-test-1',
+        MaxKeys: 1000,
         Prefix: '',
         Delimiter: '/'
     }, function (err, data) {
@@ -85,10 +85,6 @@ app.get('/', (req, res) => {
     })
 })
 
-// // 비동기형식이기 때문에 기존방식대로 코딩을 하면 불러올 수 없다.
-// // 다른 방식을 사용해야 할 것 연구! 
-
-
 
 app.post('/upload', upload.single('myImage'), (req, res, next) => {
 
@@ -98,7 +94,12 @@ app.post('/upload', upload.single('myImage'), (req, res, next) => {
         })
     } else {
 
-        s3.listObjectsV2({ Bucket: 'gmens-test-1', MaxKeys: 1000 }, function (err, data) {
+        s3.listObjectsV2({
+            Bucket: 'gmens-test-1',
+            MaxKeys: 1000,
+            Prefix: '',
+            Delimiter: '/'
+        }, function (err, data) {
             if (err) {
                 console.log(err, err.stack); // an error occurred
             } else {
