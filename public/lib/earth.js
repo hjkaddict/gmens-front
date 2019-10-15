@@ -11,21 +11,19 @@
         var i = array.length,
             j = 0,
             temp;
-
         while (i--) {
-
             j = Math.floor(Math.random() * (i + 1));
-
             // swap randomly chosen element with current element
             temp = array[i];
             array[i] = array[j];
             array[j] = temp;
-
         }
-
         return array;
     }
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+      }
 
     //New scene and camera
 
@@ -42,7 +40,6 @@
 
     var planet = new THREE.Object3D();
 
-
     //Create CanvasTexture
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
@@ -51,24 +48,37 @@
 
     shuffle(imageUrlArray)
 
-    for (let i = 0; i < 128; i++) {
-        var loader = new THREE.ImageLoader();
-        loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/009F6E38-91BE-45E9-8EF7-EAAB41B729AA_1570203620315.jpeg', function (image) {
-            ctx.drawImage(image, 0 + 32*i, 1000, 28, 28)
-        },
-            undefined,
-            function () {
-                console.error('An error happend.')
-            })
-    }
+    $.getJSON("test_geojson/imgPosition.json", function (data) {
+        for (let i = 0; i < data.length; i++) {
+            var loader = new THREE.ImageLoader();
+            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[getRandomInt(imageUrlArray.length)], function (image) {
+                ctx.drawImage(image, (data[i].FIELD2-32)*32, data[i].FIELD1*32, 28, 28)
+            },
+                undefined,
+                function () {
+                    console.error('An error happend.')
+                })
+        }
+        
+    });
 
 
-
-
+    // for (let j = 0; j < 64; j++) {
+    //     for (let i = 0; i < 128; i++) {
+    //         var loader = new THREE.ImageLoader();
+    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/009F6E38-91BE-45E9-8EF7-EAAB41B729AA_1570203620315.jpeg', function (image) {
+    //             ctx.drawImage(image, 0 + 32 * i, (32*j), 28, 28)
+    //         },
+    //             undefined,
+    //             function () {
+    //                 console.error('An error happend.')
+    //             })
+    //     }
+    // }
 
     text = new THREE.Texture(canvas);
-    var mat = new THREE.MeshBasicMaterial({ 
-        map: text, 
+    var mat = new THREE.MeshBasicMaterial({
+        map: text,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 1.0,
@@ -129,7 +139,7 @@
     var sphere2 = new THREE.Mesh(geometry2, mat)
 
     planet.add(sphere);
-    
+
 
     function latLongToVector3(lat_, lon_, radius_, heigth_) {
         var phi = (lat_) * Math.PI / 180;
@@ -148,6 +158,8 @@
             color: 0xffffff
         }, planet);
     });
+
+
 
     globe.appendChild(renderer.domElement);
 
