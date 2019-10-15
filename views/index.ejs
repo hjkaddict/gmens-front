@@ -18,6 +18,17 @@
     <script src="lib/Detector.js"></script>
     <script src="lib/TrackballControls.js"></script>
 
+    <script>
+        function preview_image(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output_image');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
     <div>
         <div id="globe"></div>
 
@@ -30,13 +41,14 @@
                 tellus elementum faucibus. In vel feugiat lectus, eget imperdiet dolor. Curabitur euismod finibus velit,
                 dapibus varius sapien cursus vitae. Suspendisse quis urna non lorem bibendum elementum.</p>
 
-
-            <!-- <div class="imgBox">
+<!-- 
+            <div class="imgBox">
                 <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
             </div> -->
 
             <div class="imgBox2"
                 style="margin:1em; padding:15px; border: 1px solid white; width: 270px; height: 200px; ">
+                <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
 
             </div>
 
