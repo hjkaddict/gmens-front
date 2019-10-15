@@ -26,10 +26,10 @@
     }
 
     //New scene and camera
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 10000);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
 
     //New Renderer
-    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    var renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
   
@@ -81,10 +81,8 @@
 
     var mat = new THREE.MeshBasicMaterial({
         map: text,
+        alphaTest: 0.5,
         side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 1.0,
-        depthWrite: true
     });
 
     //Create a sphere to make visualization easier.
@@ -101,8 +99,9 @@
             transpTexture.repeat.set(1, 1)
         }),
         color: 0xffffff,
-        transparent: true,
-        opacity: 1.0
+        alphaTest: 0.5
+        // transparent: true,
+        // opacity: 1.0
     });
 
     var sphere2 = new THREE.Mesh(geometry2, mat)
@@ -137,7 +136,6 @@
 
     globe.appendChild(renderer.domElement);
 
-    //scene.add(sphere2)
     scene.add(planet);
 
 
