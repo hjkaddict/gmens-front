@@ -38,51 +38,6 @@
     var ctx = canvas.getContext('2d');
     canvas.width = 2048;
     canvas.height = 1024;
-    var r = 10;
-
-    // $.getJSON("test_geojson/imgPosition.json", function (data) {
-    //     for (let i = 0; i < data.length; i++) {
-    //         var loader = new THREE.ImageLoader();
-    //         let randNum = getRandomInt(imageUrlArray.length);
-    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
-    //             var x = data[i].FIELD2 * 16;
-    //             var y = data[i].FIELD1 * 16;
-    //             var picSize = 14;
-
-    //             var r = 10;
-
-
-    //             //draw red border when recentpic uploaded
-    //             if (image.src === recentUploaded) {
-    //                 ctx.fillStyle = 'red';
-    //                 ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
-    //                 ctx.drawImage(image, x, y, picSize, picSize)
-    //                 // var targetPosition = latLongToVector3(72 * 16, 29 * 16, 12)
-    //                 // var duration = 5000;
-    //                 // tweenCamera(targetPosition, duration);
-    //             } else {
-    //                 ctx.drawImage(image, x, y, picSize, picSize)
-
-    //                 var lon = map_range((data[i].FIELD2+32) * 16, 0, 2048, -Math.PI, Math.PI);
-    //                 var lat = map_range(data[i].FIELD1 * 16, 1024, 0,  -1 * Math.PI / 2, Math.PI / 2);
-    //                 var xx = -r * Math.cos(lat) * Math.cos(lon);
-    //                 var yy = r * Math.sin(lat);
-    //                 var zz = r * Math.cos(lat)* Math.sin(lon)
-
-    //                 var testg = new THREE.PlaneGeometry(0.1, 0.1);
-    //                 var testm = new THREE.MeshBasicMaterial({ color: 'red' });
-    //                 var cube = new THREE.Mesh(testg, testm);
-
-    //                 cube.position.set(xx, yy, zz);
-    //                 planet.add(cube);
-    //             }
-    //         },
-    //             undefined,
-    //             function () {
-    //                 console.error('An error happend.')
-    //             })
-    //     }
-    // });
 
     $.getJSON("test_geojson/imgPosition.json", function (data) {
         for (let i = 0; i < imageUrlArray.length; i++) {
@@ -96,12 +51,11 @@
 
                 var r = 12;
 
-                var lon = map_range((data[randNum].FIELD2 + 32) * 16, 0, 2048, -Math.PI, Math.PI);
-                var lat = map_range(data[randNum].FIELD1 * 16, 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
+                var lon = map_range((data[randNum].FIELD2 + 32) * 16 + (picSize/2), 0, 2048, -Math.PI, Math.PI);
+                var lat = map_range(data[randNum].FIELD1 * 16 + (picSize/2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
                 var xx = -r * Math.cos(lat) * Math.cos(lon);
                 var yy = r * Math.sin(lat);
                 var zz = r * Math.cos(lat) * Math.sin(lon)
-
 
                 //draw red border when recentpic uploaded
                 if (image.src === recentUploaded) {
@@ -109,7 +63,7 @@
                     ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
                     ctx.drawImage(image, x, y, picSize, picSize)
                     var targetPosition = new THREE.Vector3(xx, yy, zz)
-                    var duration = 5000;
+                    var duration = 6000;
                     tweenCamera(targetPosition, duration);
                 } else {
                     ctx.drawImage(image, x, y, picSize, picSize)
@@ -146,8 +100,6 @@
     //Create a sphere to make visualization easier.
     var geometry = new THREE.SphereGeometry(10, 64, 64);
     var geometry2 = new THREE.SphereGeometry(10, 64, 64);
-
-
 
 
 
@@ -193,7 +145,7 @@
 
         renderer.render(scene, camera);
         requestAnimationFrame(render);
-        //console.log(camera.position)
+        console.log(camera.position)
     }
 
     render();
