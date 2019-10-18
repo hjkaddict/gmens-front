@@ -26,10 +26,10 @@ THREE.TrackballControls = function ( object, domElement ) {
 	this.noPan = false;
 
 	this.staticMoving = false;
-	this.dynamicDampingFactor = 0.2;
+	this.dynamicDampingFactor = 0.15;
 
-	this.minDistance = 0;
-	this.maxDistance = Infinity;
+	this.minDistance = 2;
+	this.maxDistance = 20;
 
 	this.keys = [ 65 /*A*/, 83 /*S*/, 68 /*D*/ ];
 

@@ -8,7 +8,8 @@
     <meta meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href=css/style.css> <title>GMe&s</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>GMe&s</title>
 </head>
 
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
@@ -16,7 +17,10 @@
     <!--THREE-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.js"></script>
     <script src="lib/Detector.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="lib/TrackballControls.js"></script>
+    <script src="lib/OrbitControls.js"></script>
+
     <!--jQeury-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -101,6 +105,7 @@
 
 
     <script>
+        const recentUploaded = "<%=imgUrl%>"
         const imageUrlArray = "<%=imgUrls%>".split(",")
     </script>
 

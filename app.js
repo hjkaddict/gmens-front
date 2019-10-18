@@ -79,6 +79,7 @@ app.get('/', (req, res) => {
                 imgData.push(content.Key);
             });
             res.render('index', {
+                imgUrl: '',
                 imgUrls: imgData
             })
         }
@@ -93,7 +94,6 @@ app.post('/upload', upload.single('myImage'), (req, res, next) => {
             msg: 'Error: No File Selected!'
         })
     } else {
-
         s3.listObjectsV2({
             Bucket: 'gmens-test-1',
             MaxKeys: 1000,

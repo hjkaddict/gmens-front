@@ -7,51 +7,119 @@
         return;
     }
 
-    function shuffle(array) {
-        var i = array.length,
-            j = 0,
-            temp;
-        while (i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            // swap randomly chosen element with current element
-            temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-        }
-        return array;
-    }
-
     function getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
+
     //New scene and camera
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
+    //Set the camera position
+    camera.position.set(0, 0, 16);
+
 
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-  
-
     document.body.appendChild(renderer.domElement);
 
+    //Enable controls
+    var controls = new THREE.TrackballControls(camera, renderer.domElement);
+
     var planet = new THREE.Object3D();
+
+
+
+    scene.updateMatrixWorld();
 
     //Create CanvasTexture
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
     canvas.width = 2048;
     canvas.height = 1024;
+    var r = 10;
 
-    //shuffle(imageUrlArray)
+    // $.getJSON("test_geojson/imgPosition.json", function (data) {
+    //     for (let i = 0; i < data.length; i++) {
+    //         var loader = new THREE.ImageLoader();
+    //         let randNum = getRandomInt(imageUrlArray.length);
+    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
+    //             var x = data[i].FIELD2 * 16;
+    //             var y = data[i].FIELD1 * 16;
+    //             var picSize = 14;
+
+    //             var r = 10;
+
+
+    //             //draw red border when recentpic uploaded
+    //             if (image.src === recentUploaded) {
+    //                 ctx.fillStyle = 'red';
+    //                 ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
+    //                 ctx.drawImage(image, x, y, picSize, picSize)
+    //                 // var targetPosition = latLongToVector3(72 * 16, 29 * 16, 12)
+    //                 // var duration = 5000;
+    //                 // tweenCamera(targetPosition, duration);
+    //             } else {
+    //                 ctx.drawImage(image, x, y, picSize, picSize)
+
+    //                 var lon = map_range((data[i].FIELD2+32) * 16, 0, 2048, -Math.PI, Math.PI);
+    //                 var lat = map_range(data[i].FIELD1 * 16, 1024, 0,  -1 * Math.PI / 2, Math.PI / 2);
+    //                 var xx = -r * Math.cos(lat) * Math.cos(lon);
+    //                 var yy = r * Math.sin(lat);
+    //                 var zz = r * Math.cos(lat)* Math.sin(lon)
+
+    //                 var testg = new THREE.PlaneGeometry(0.1, 0.1);
+    //                 var testm = new THREE.MeshBasicMaterial({ color: 'red' });
+    //                 var cube = new THREE.Mesh(testg, testm);
+
+    //                 cube.position.set(xx, yy, zz);
+    //                 planet.add(cube);
+    //             }
+    //         },
+    //             undefined,
+    //             function () {
+    //                 console.error('An error happend.')
+    //             })
+    //     }
+    // });
 
     $.getJSON("test_geojson/imgPosition.json", function (data) {
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < imageUrlArray.length; i++) {
             var loader = new THREE.ImageLoader();
-            let randNum = getRandomInt(imageUrlArray.length);
-            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
-                ctx.drawImage(image, data[i].FIELD2 * 16, data[i].FIELD1 * 16, 14, 14)
+            let randNum = getRandomInt(data.length);
+
+            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (image) {
+                var x = data[randNum].FIELD2 * 16;
+                var y = data[randNum].FIELD1 * 16;
+                var picSize = 14;
+
+                var r = 12;
+
+                var lon = map_range((data[randNum].FIELD2 + 32) * 16, 0, 2048, -Math.PI, Math.PI);
+                var lat = map_range(data[randNum].FIELD1 * 16, 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
+                var xx = -r * Math.cos(lat) * Math.cos(lon);
+                var yy = r * Math.sin(lat);
+                var zz = r * Math.cos(lat) * Math.sin(lon)
+
+
+                //draw red border when recentpic uploaded
+                if (image.src === recentUploaded) {
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
+                    ctx.drawImage(image, x, y, picSize, picSize)
+                    var targetPosition = new THREE.Vector3(xx, yy, zz)
+                    var duration = 5000;
+                    tweenCamera(targetPosition, duration);
+                } else {
+                    ctx.drawImage(image, x, y, picSize, picSize)
+
+                    // var testg = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+                    // var testm = new THREE.MeshBasicMaterial({ color: 'red' });
+                    // var cube = new THREE.Mesh(testg, testm);
+                    // cube.position.set(xx, yy, zz);
+                    // planet.add(cube);
+                }
             },
                 undefined,
                 function () {
@@ -61,21 +129,9 @@
     });
 
 
-    // $.getJSON("test_geojson/imgPosition.json", function (data) {
-    //     for (let i = 0; i < data.length; i++) {
-    //         var loader = new THREE.ImageLoader();
-    //         let randNum = getRandomInt(imageUrlArray.length);
-    //         loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
-    //             ctx.drawImage(image, data[i].FIELD2 * 32, data[i].FIELD1 * 32, 28, 28)
-    //         },
-    //             undefined,
-    //             function () {
-    //                 console.error('An error happend.')
-    //             })
-    //     }
-    // });
 
-    text = new THREE.CanvasTexture(canvas);
+
+    var text = new THREE.CanvasTexture(canvas);
     text.wrapS = THREE.RepeatWrapping;
     text.wrapT = THREE.RepeatWrapping;
     text.offset.set(0.25, 0)
@@ -91,6 +147,10 @@
     var geometry = new THREE.SphereGeometry(10, 64, 64);
     var geometry2 = new THREE.SphereGeometry(10, 64, 64);
 
+
+
+
+
     var transpTexture = new THREE.TextureLoader();
 
     var material = new THREE.MeshBasicMaterial({
@@ -102,8 +162,6 @@
         }),
         color: 0xffffff,
         alphaTest: 0.5
-        // transparent: true,
-        // opacity: 1.0
     });
 
     var sphere2 = new THREE.Mesh(geometry2, mat)
@@ -112,22 +170,7 @@
 
     planet.add(sphere2);
     planet.add(sphere);
-
-
-
-
-    // function latLongToVector3(lat_, lon_, radius_, heigth_) {
-    //     var phi = (lat_) * Math.PI / 180;
-    //     var theta = (lon_ - 180) * Math.PI / 180;
-
-    //     var x = -(radius_ + heigth_) * Math.cos(phi) * Math.cos(theta);
-    //     var y = (radius_ + heigth_) * Math.sin(phi);
-    //     var z = (radius_ + heigth_) * Math.cos(phi) * Math.sin(theta);
-
-    //     return new THREE.Vector3(x, y, z);
-    // }
-
-    // Draw lines
+    //Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
         drawThreeGeo(data, 10, 'sphere', {
             color: 0xffffff
@@ -136,29 +179,51 @@
 
 
 
+
     globe.appendChild(renderer.domElement);
 
     scene.add(planet);
-
-
-
-
-
-    //Set the camera position
-    camera.position.z = 18;
-
-    //Enable controls
-    var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
     //Render the image
     function render() {
         text.needsUpdate = true;
         text.minFilter = THREE.LinearFilter;
         controls.update();
-        requestAnimationFrame(render);
-        renderer.render(scene, camera);
+        TWEEN.update(); //TWEENing
 
+        renderer.render(scene, camera);
+        requestAnimationFrame(render);
+        //console.log(camera.position)
     }
 
     render();
+
+
+    //functions
+    //길이가 아니라 각이어야함 
+    // convert the positions from a lat, lon to a position on a sphere.
+
+    function tweenCamera(targetPosition, duration) {
+        controls.enabled = false;
+        var position = new THREE.Vector3().copy(camera.position);
+        var tween = new TWEEN.Tween(position)
+            .to(targetPosition, duration)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(function () {
+                camera.position.copy(position);
+                camera.lookAt(controls.target);
+            })
+            .onComplete(function () {
+                camera.position.copy(targetPosition);
+                camera.lookAt(controls.target);
+                controls.enabled = true;
+            })
+            .start();
+    }
+
+    function map_range(value, low1, high1, low2, high2) {
+        return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    }
+
+
 })()
