@@ -63,7 +63,7 @@
                     ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
                     ctx.drawImage(image, x, y, picSize, picSize)
                     var targetPosition = new THREE.Vector3(xx, yy, zz)
-                    var duration = 6000;
+                    var duration = 4000;
                     tweenCamera(targetPosition, duration);
                 } else {
                     ctx.drawImage(image, x, y, picSize, picSize)
@@ -145,7 +145,7 @@
 
         renderer.render(scene, camera);
         requestAnimationFrame(render);
-        console.log(camera.position)
+        //console.log(camera.position)
     }
 
     render();
