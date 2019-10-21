@@ -60,6 +60,9 @@ app.set('view engine', 'ejs')
 // Public folder
 app.use(express.static('./public'))
 
+app.get('/example', (req, res) => {
+    res.render('example')
+})
 
 
 app.get('/', (req, res) => {

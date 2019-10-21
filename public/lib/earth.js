@@ -7,19 +7,16 @@
         return;
     }
 
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
 
     //New scene and camera
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
     //Set the camera position
-    camera.position.set(0, 0, 16);
+    camera.position.set(11.4, 9.47, -5.99);
 
+    //scene.background =  new THREE.Color( 0xf0f0f0 );
 
     //New Renderer
-    var renderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
+    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
@@ -30,98 +27,90 @@
     var planet = new THREE.Object3D();
 
 
-
-    scene.updateMatrixWorld();
-
-    //Create CanvasTexture
+    //Create Canvas for CanvasTexture
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
     canvas.width = 2048;
     canvas.height = 1024;
 
-    $.getJSON("test_geojson/imgPosition.json", function (data) {
-        for (let i = 0; i < imageUrlArray.length; i++) {
-            var loader = new THREE.ImageLoader();
-            let randNum = getRandomInt(data.length);
+    var canvasTexture = new THREE.CanvasTexture(canvas);
+    
+    canvasTexture.wrapS = THREE.RepeatWrapping;
+    canvasTexture.wrapT = THREE.RepeatWrapping;
+    canvasTexture.offset.set(0.25, 0)
+    canvasTexture.repeat.set(1, 1)
 
-            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[i], function (image) {
-                var x = data[randNum].FIELD2 * 16;
-                var y = data[randNum].FIELD1 * 16;
-                var picSize = 14;
-
-                var r = 12;
-
-                var lon = map_range((data[randNum].FIELD2 + 32) * 16 + (picSize/2), 0, 2048, -Math.PI, Math.PI);
-                var lat = map_range(data[randNum].FIELD1 * 16 + (picSize/2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
-                var xx = -r * Math.cos(lat) * Math.cos(lon);
-                var yy = r * Math.sin(lat);
-                var zz = r * Math.cos(lat) * Math.sin(lon)
-
-                //draw red border when recentpic uploaded
-                if (image.src === recentUploaded) {
-                    ctx.fillStyle = 'red';
-                    ctx.fillRect(x - 1, y - 1, picSize + 2, picSize + 2);
-                    ctx.drawImage(image, x, y, picSize, picSize)
-                    var targetPosition = new THREE.Vector3(xx, yy, zz)
-                    var duration = 4000;
-                    tweenCamera(targetPosition, duration);
-                } else {
-                    ctx.drawImage(image, x, y, picSize, picSize)
-
-                    // var testg = new THREE.BoxGeometry(0.1, 0.1, 0.1);
-                    // var testm = new THREE.MeshBasicMaterial({ color: 'red' });
-                    // var cube = new THREE.Mesh(testg, testm);
-                    // cube.position.set(xx, yy, zz);
-                    // planet.add(cube);
-                }
-            },
-                undefined,
-                function () {
-                    console.error('An error happend.')
-                })
-        }
-    });
-
-
-
-
-    var text = new THREE.CanvasTexture(canvas);
-    text.wrapS = THREE.RepeatWrapping;
-    text.wrapT = THREE.RepeatWrapping;
-    text.offset.set(0.25, 0)
-    text.repeat.set(1, 1)
-
-    var mat = new THREE.MeshBasicMaterial({
-        map: text,
+    var canvasMaterial = new THREE.MeshBasicMaterial({
+        map: canvasTexture,
         alphaTest: 0.5,
         side: THREE.DoubleSide,
     });
 
-    //Create a sphere to make visualization easier.
-    var geometry = new THREE.SphereGeometry(10, 64, 64);
-    var geometry2 = new THREE.SphereGeometry(10, 64, 64);
+    var canvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
 
+    //Import Img Position on globe and draw
 
+    $.getJSON("test_geojson/imgPosition.json", function (data) {
+        for (let i = 0; i < data.length; i++) {
+            var loader = new THREE.ImageLoader();
+            let randNum = getRandomInt(imageUrlArray.length);
+
+            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
+                var imageXpos = data[i].FIELD2 * 16,
+                    imageYpos = data[i].FIELD1 * 16;
+                var picSize = 14;
+                var radius = 12;
+
+                var lon = map_range((data[i].FIELD2 + 32) * 16 + (picSize / 2), 0, 2048, -Math.PI, Math.PI),
+                    lat = map_range(data[i].FIELD1 * 16 + (picSize / 2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
+            
+                var pos3D = new THREE.Vector3(-radius * Math.cos(lat) * Math.cos(lon), radius * Math.sin(lat), radius * Math.cos(lat) * Math.sin(lon));
+
+                if (image.src === recentUploaded) {
+                    //Draw Red border when uploaded
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(imageXpos - 1, imageYpos - 1, picSize + 2, picSize + 2);
+                    ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
+                    //Move Camera when uploaded
+                    var targetPosition = pos3D,
+                        duration = 4000;
+                    tweenCamera(targetPosition, duration);
+                } else {
+                    //Draw all images
+                    ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
+                }
+            },
+                undefined,
+                function () {
+                    console.error('An error happend.');
+                })
+        }
+    });
+
+    var canvasSphere = new THREE.Mesh(canvasSphereGeometry, canvasMaterial)
+
+    //Create Spheres
 
     var transpTexture = new THREE.TextureLoader();
 
-    var material = new THREE.MeshBasicMaterial({
+    var transMaterial = new THREE.MeshBasicMaterial({
         map: transpTexture.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/imageData/2_no_clouds_4k_black2.png', function (transpTexture) {
             transpTexture.wrapS = THREE.RepeatWrapping;
             transpTexture.wrapT = THREE.RepeatWrapping;
-            transpTexture.offset.set(0.25, 0)
-            transpTexture.repeat.set(1, 1)
+            transpTexture.offset.set(0.25, 0);
+            transpTexture.repeat.set(1, 1);
         }),
         color: 0xffffff,
         alphaTest: 0.5
     });
 
-    var sphere2 = new THREE.Mesh(geometry2, mat)
-    var sphere = new THREE.Mesh(geometry, material);
+    var geometry = new THREE.SphereGeometry(10, 64, 64);
+    var transSphere = new THREE.Mesh(geometry, transMaterial);
 
 
-    planet.add(sphere2);
-    planet.add(sphere);
+    planet.add(canvasSphere);
+    planet.add(transSphere);
+
     //Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
         drawThreeGeo(data, 10, 'sphere', {
@@ -130,19 +119,15 @@
     });
 
 
-
-
     globe.appendChild(renderer.domElement);
-
     scene.add(planet);
 
     //Render the image
     function render() {
-        text.needsUpdate = true;
-        text.minFilter = THREE.LinearFilter;
+        canvasTexture.needsUpdate = true;
+        canvasTexture.minFilter = THREE.LinearFilter;
         controls.update();
         TWEEN.update(); //TWEENing
-
         renderer.render(scene, camera);
         requestAnimationFrame(render);
         //console.log(camera.position)
@@ -151,9 +136,11 @@
     render();
 
 
-    //functions
-    //길이가 아니라 각이어야함 
-    // convert the positions from a lat, lon to a position on a sphere.
+    //functions below:
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
 
     function tweenCamera(targetPosition, duration) {
         controls.enabled = false;
@@ -176,6 +163,5 @@
     function map_range(value, low1, high1, low2, high2) {
         return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
     }
-
 
 })()

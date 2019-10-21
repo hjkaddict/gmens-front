@@ -6,7 +6,7 @@ html, body {
 nav {
     float: left;
     background: rgba(0, 0, 0, 0.5);
-    border: 0px solid white;
+    border: none;
     margin: 10px;
     width: 300px;
     height: 800px;
@@ -14,10 +14,29 @@ nav {
 }
 
 p {
-    font-family:'Bangla Sangam MN';
+    font-family: 'Bangla Sangam MN';
     line-height: 1em;
     margin: 0;
     padding: 15px;
+}
+
+.translate {
+    float: right;
+    font-size: 20px;
+    background: transparent;
+    color: white;
+    border: none;
+    display: inline;
+}
+
+button:hover {
+    font-weight: bold;
+}
+
+button:focus {
+    font-weight: bold;
+    background: transparent;
+    text-decoration: underline;
 }
 
 div#globe {
@@ -27,6 +46,7 @@ div#globe {
     left: 0px;
     border: 0px solid gold;
     position: absolute !important;
+    background: transparent;
 }
 
 h1 {
@@ -43,7 +63,6 @@ h2 {
 
 .custom {
     color: white;
-    
 }
 
 .inputBox {
@@ -87,13 +106,12 @@ h2 {
 
 .imgBox {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    transform: translate(0%, 0%);
-}
-
-.imgBox2 {
-    position: relative;
+    border: 1px solid white;
+    width: 270px;
+    height: 200px;
+    padding: 15px;
+    margin-top: 400px;
+    margin-left: 1em;
 }
 
 .btn {

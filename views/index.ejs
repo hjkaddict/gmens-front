@@ -9,6 +9,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <!--jQeury-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <title>GMe&s</title>
 </head>
 
@@ -20,10 +24,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="lib/TrackballControls.js"></script>
     <script src="lib/OrbitControls.js"></script>
-
-    <!--jQeury-->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
     <script>
         function readURL(input) {
@@ -39,28 +39,49 @@
             }
         }
     </script>
+    <script>
+        var arrLang = {
+            'en': {
+                'title': 'Fire Prevention <br> Image Cloud',
+                'about': 'This project is to collect and display fire prevention images that have been taken by people all around the world. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mollis hendrerit magna eget sollicitudin. Mauris bibendum risus at tellus elementum faucibus. In vel feugiat lectus, eget imperdiet dolor. Curabitur euismod finibus velit,dapibus varius sapien cursus vitae. Suspendisse quis urna non lorem bibendum elementum.'
+            },
+            'kr': {
+                'title': '화재 예방 <br> 이미지 클라우드',
+                'about': '사람들이 업로드하는 화재 예방 이미지들을 수집하고, 그 이미지 데이터들을 시각화하는 프로젝트이다.'
+            }
+        };
+
+        $(function () {
+            $('.translate').click(function () {
+                var lang = $(this).attr('id');
+                $('.lang').each(function (index, element) {
+                    $(this).html(arrLang[lang][$(this).attr('key')])
+                })
+            })
+            $('.translate#en').trigger("click") // select the language when loads
+        })
+
+
+    </script>
 
     <div>
-        <div id="globe"></div>
+
+        <div id="globe">
+
+        </div>
+        <nav style="background: none; float:right; border:none;">
+            <div>
+                <button class="translate" id="en"> EN </button>
+                <button class="translate" id="kr"> KR </button>
+            </div>
+        </nav>
 
         <nav>
-            <p style="font-size:30px; font-weight: 600;">Fire Prevention<br>Image Cloud</p>
-            <p style="font-size:15px; margin-top: -10px; line-height: 1.2em;font-weight: 100;">This project is to
-                collect and display
-                fire prevention images that have been taken by people all around the world. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit. Praesent mollis hendrerit magna eget sollicitudin. Mauris bibendum risus at
-                tellus elementum faucibus. In vel feugiat lectus, eget imperdiet dolor. Curabitur euismod finibus velit,
-                dapibus varius sapien cursus vitae. Suspendisse quis urna non lorem bibendum elementum.</p>
+            <p class="lang" key="title" style="position: absolute; font-size:30px; font-weight: 600;"></p>
+            <p class="lang" key="about" style="position: absolute; font-size:15px; margin-top: 80px; line-height: 1.2em; font-weight: 100;"></p>
 
-            <!-- 
             <div class="imgBox">
-                <img src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive-img">
-            </div> -->
-
-            <div class="imgBox2"
-                style="margin:1em; padding:15px; border: 1px solid white; width: 270px; height: 200px; ">
                 <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
-
             </div>
 
             <!-- <h2><%= typeof msg != 'undefined' ? msg : '' %></h2> -->
@@ -69,7 +90,7 @@
                 <form action="/upload" method="POST" enctype="multipart/form-data">
 
                     <div class="file-field input-field btn green darken-3"
-                        style="float:left; margin-top: 0em; margin-left: 1em;">
+                        style="float:left; margin-top: 610px; margin-left: 1em;">
 
                         <!-- <div class="file-path-wrapper validate">
                             <input class="file-path custom" type="text" placeholder="thisisasample.jpg">
@@ -84,7 +105,7 @@
 
                     <div class="input-field">
                         <button type="submit" class="btn green darken-3"
-                            style="float:right; margin-top: 0em; margin-right: 1em" name="action">Submit</button>
+                            style="float:right; margin-top: 610px; margin-right: 1em" name="action">Submit</button>
                     </div>
 
                 </form>
@@ -92,24 +113,18 @@
 
 
             <div>
-                <p style="margin-top: 4em; padding: 15px">Powered by:
+                <p style="position: absolute; margin-top: 650px; padding: 15px">Powered by:
                     <a href="https://gmens-middle.herokuapp.com/"><img src="/img/gm-logo.png" width="230px"></a>
                 </p>
             </div>
         </nav>
 
-
-
     </div>
-
-
 
     <script>
         const recentUploaded = "<%=imgUrl%>"
         const imageUrlArray = "<%=imgUrls%>".split(",")
     </script>
-
-
 
 </body>
 
