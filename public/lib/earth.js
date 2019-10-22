@@ -139,7 +139,7 @@
 
     planet.add(canvasSphere);
     planet.add(selCanvasSphere);
-    planet.add(transSphere);
+    //planet.add(transSphere);
 
     //Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
