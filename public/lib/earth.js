@@ -14,6 +14,7 @@
     camera.position.set(11.4, 9.47, -5.99);
 
     //scene.background =  new THREE.Color( 0xf0f0f0 );
+    var picSize = 14;
 
     //Raycaster
     var raycaster = new THREE.Raycaster();
@@ -42,10 +43,10 @@
     selCanvas.width = 2048;
     selCanvas.height = 1024;
 
+
     var canvasTexture = new THREE.CanvasTexture(canvas);
     var selCanvasTexture = new THREE.CanvasTexture(selCanvas)
-    var picSize = 14;
-    
+
     canvasTexture.wrapS = THREE.RepeatWrapping;
     canvasTexture.wrapT = THREE.RepeatWrapping;
     canvasTexture.offset.set(0.25, 0)
@@ -55,6 +56,7 @@
     selCanvasTexture.wrapT = THREE.RepeatWrapping;
     selCanvasTexture.offset.set(0.25, 0)
     selCanvasTexture.repeat.set(1, 1)
+
 
     var selCanvasMaterial = new THREE.MeshBasicMaterial({
         map: selCanvasTexture,
@@ -75,14 +77,18 @@
     //Import Img Position on globe and draw
 
     var imgPosition_data = []
+    var imgUrlName = [];
 
     $.getJSON("test_geojson/imgPosition.json", function (data) {
+
         imgPosition_data.push(data)
         for (let i = 0; i < data.length; i++) {
             var loader = new THREE.ImageLoader();
             let randNum = getRandomInt(imageUrlArray.length);
+            var address = 'https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum];
+            imgUrlName.push(address)
+            loader.load(address, function (image) {
 
-            loader.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum], function (image) {
                 var imageXpos = data[i].FIELD2 * 16,
                     imageYpos = data[i].FIELD1 * 16;
                 var radius = 11;
@@ -104,18 +110,21 @@
                 } else {
                     ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
                 }
+
+                //imgUrlName.push(image.src);
             },
                 undefined,
                 function () {
                     console.error('An error happend.');
                 })
         }
-    });
+    }
+
+    );
 
 
 
     var canvasSphere = new THREE.Mesh(canvasSphereGeometry, canvasMaterial)
-
     var selCanvasSphere = new THREE.Mesh(selCanvasSphereGeometry, selCanvasMaterial)
 
     //Create Spheres
@@ -136,10 +145,39 @@
     var geometry = new THREE.SphereGeometry(10, 64, 64);
     var transSphere = new THREE.Mesh(geometry, transMaterial);
 
-
     planet.add(canvasSphere);
     planet.add(selCanvasSphere);
-    //planet.add(transSphere);
+    planet.add(transSphere);
+
+    //Create preview border box
+    var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
+    var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0,
+        color: 'black',
+        needsUpdate: true,
+        depthTest: false,
+    });
+    var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
+    planet.add(previewBoxBorderCube);
+
+
+    //Create preview box
+    var previewBoxGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
+    var previewBoxTexture = new THREE.TextureLoader();
+    var previewBoxMaterial = new THREE.MeshBasicMaterial({
+        map: previewBoxTexture.load(''),
+        transparent: true,
+        opacity: 0,
+        needsUpdate: true,
+        depthTest: false,
+        side: THREE.FrontSide
+
+    });
+    var previewBoxCube = new THREE.Mesh(previewBoxGeometry, previewBoxMaterial);
+    planet.add(previewBoxCube);
+
+
 
     //Draw lines
     $.getJSON("test_geojson/countries.json", function (data) {
@@ -148,21 +186,58 @@
         }, planet);
     });
 
+    var loading = false;
+    var preview = false;
+
+    var previewAddress = ''
+
     function drawSelection() {
+
         selCtx.clearRect(0, 0, 2048, 1024);
+        loading = false;
+
         if (imgPosition_data[0] !== undefined) {
             for (let i = 0; i < imgPosition_data[0].length; i++) {
                 var xPos = imgPosition_data[0][i].FIELD2 * 16;
                 var yPos = imgPosition_data[0][i].FIELD1 * 16;
-                if (xCross > xPos && xCross < xPos + 14 && yCross > yPos && yCross < yPos + 14) {
+                if (xCross > xPos && xCross < xPos + picSize && yCross > yPos && yCross < yPos + picSize && loading === false) {
                     selCtx.fillStyle = 'blue';
                     selCtx.fillRect(xPos - 1, yPos - 1, 16, 16);
+                    previewAddress = imgUrlName[i];
+                    loading = true;
                 }
             }
         }
         selCanvasTexture.needsUpdate = true;
         selCanvasTexture.minFilter = THREE.LinearFilter;
     }
+
+    function displayPreview() {
+
+        if (loading === true && preview === false) {
+            previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
+                if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
+                    previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
+                    previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                } else {
+                    previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
+                    previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                }
+
+                previewBoxTexture.minFilter = THREE.LinearFilter;
+
+            })
+            previewBoxBorderMaterial.opacity = 0.8;
+            previewBoxMaterial.opacity = 0.9;
+            preview = true;
+        } else if (loading === false) {
+            previewBoxBorderMaterial.opacity = 0;
+            previewBoxMaterial.opacity = 0;
+            preview = false;
+        }
+    }
+
+
 
 
     globe.appendChild(renderer.domElement);
@@ -172,11 +247,28 @@
 
     //Render the image
     function render() {
+
         drawSelection();
         canvasTexture.needsUpdate = true;
         canvasTexture.minFilter = THREE.LinearFilter;
+
         controls.update();
         TWEEN.update(); //TWEENing
+        previewBoxBorderCube.position.copy(camera.position)
+        previewBoxBorderCube.rotation.copy(camera.rotation)
+        previewBoxBorderCube.updateMatrix();
+        previewBoxBorderCube.translateX(1.7);
+        previewBoxBorderCube.translateY(-0.5);
+        previewBoxBorderCube.translateZ(-2);
+        previewBoxCube.position.copy(camera.position)
+        previewBoxCube.rotation.copy(camera.rotation)
+        previewBoxCube.updateMatrix();
+        previewBoxCube.translateX(1.7);
+        previewBoxCube.translateY(-0.5);
+        previewBoxCube.translateZ(-2);
+        
+
+        displayPreview();
         renderer.render(scene, camera);
         requestAnimationFrame(render);
     }

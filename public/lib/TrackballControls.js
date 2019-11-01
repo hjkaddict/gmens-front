@@ -58,6 +58,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	// for reset
 
+	
+
 	this.target0 = this.target.clone();
 	this.position0 = this.object.position.clone();
 	this.up0 = this.object.up.clone();
@@ -129,7 +131,6 @@ THREE.TrackballControls = function ( object, domElement ) {
 		return projection;
 
 	};
-
 	this.rotateCamera = function () {
 
 		var angle = Math.acos( _rotateStart.dot( _rotateEnd ) / _rotateStart.length() / _rotateEnd.length() );

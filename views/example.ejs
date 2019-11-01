@@ -36,7 +36,7 @@
 
 <body>
     <div id="container"></div>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.js"></script>
     <script src="lib/TrackballControls.js"></script>
     <script>
@@ -44,7 +44,7 @@
             this._canvas = document.createElement("canvas");
             this._canvas.width = this._canvas.height = 1024;
             this._context2D = this._canvas.getContext("2d");
-            
+
             this._parentTexture.push(parentTexture);
             parentTexture.image = this._canvas;
 
@@ -52,7 +52,7 @@
             this._background.src = "img/uv_grid_opengl.jpg";
 
             this._draw();
-            
+
         };
         CanvasTexture.prototype = {
             constructor: CanvasTexture,
@@ -73,7 +73,7 @@
                 // Background.
                 //this._context2D.drawImage(this._background, 0, 0);
                 // Yellow cross.
-                this._context2D.lineWidth =  6;
+                this._context2D.lineWidth = 6;
                 this._context2D.strokeStyle = "#FFFF00";
                 this._context2D.beginPath();
 
