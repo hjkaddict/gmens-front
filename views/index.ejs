@@ -13,32 +13,47 @@
     <!--jQeury-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <title>GMe&s</title>
-</head>
-
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
-
-    <!--THREE-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.js"></script>
     <script src="lib/Detector.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="lib/TrackballControls.js"></script>
     <script src="lib/OrbitControls.js"></script>
 
+
+
+    <title>GMe&s</title>
+</head>
+
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+
+    <script>
+        function introFadeOut() {
+            console.log('executed')
+            $(".intro").css("display", "none");
+            $("div#globe").css("display", "block");
+            $("nav").css("display", "block");
+        }
+
+    </script>
+
+    <div class="intro">
+        <p onclick="introFadeOut();">This is intro and loading page</p>
+    </div>
+
+    <!-- read url function for image-->
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     $('#blah')
                         .attr('src', e.target.result);
                 };
-
                 reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
+
     <script>
         var arrLang = {
             'en': {
@@ -64,58 +79,56 @@
 
     </script>
 
-    <div>
 
-        <div id="globe">
 
+    <div id="globe"> </div>
+
+    <div class="kren">
+        <button class="translate" id="en"> EN </button>
+        <button class="translate" id="kr"> KR </button>
+    </div>
+
+    <nav>
+        <p class="lang" key="title" style="position: absolute; font-size:30px; font-weight: 600;"></p>
+        <p class="lang" key="about"
+            style="position: absolute; font-size:15px; margin-top: 80px; line-height: 1.2em; font-weight: 100;"></p>
+
+        <div class="imgBox">
+            <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
         </div>
-        <nav style="background: transparent; box-shadow: none; float:right; border:0px;">
-            <div>
-                <button class="translate" id="en"> EN </button>
-                <button class="translate" id="kr"> KR </button>
-            </div>
-        </nav>
 
-        <nav>
-            <p class="lang" key="title" style="position: absolute; font-size:30px; font-weight: 600;"></p>
-            <p class="lang" key="about" style="position: absolute; font-size:15px; margin-top: 80px; line-height: 1.2em; font-weight: 100;"></p>
+        <!-- <h2><%= typeof msg != 'undefined' ? msg : '' %></h2> -->
 
-            <div class="imgBox">
-                <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
-            </div>
+        <div class="cotainer">
+            <form action="/upload" method="POST" enctype="multipart/form-data">
 
-            <!-- <h2><%= typeof msg != 'undefined' ? msg : '' %></h2> -->
+                <div class="file-field input-field btn green darken-3"
+                    style="float:left; margin-top: 560px; margin-left: 1em;">
 
-            <div class="cotainer">
-                <form action="/upload" method="POST" enctype="multipart/form-data">
-
-                    <div class="file-field input-field btn green darken-3"
-                        style="float:left; margin-top: 560px; margin-left: 1em;">
-
-                        <!-- <div class="file-path-wrapper validate">
+                    <!-- <div class="file-path-wrapper validate">
                             <input class="file-path custom" type="text" placeholder="thisisasample.jpg">
                         </div> -->
 
-                        <span> Upload </span>
-                        <input name="myImage" type="file" onchange="readURL(this);" />
-                    </div>
+                    <span> Upload </span>
+                    <input name="myImage" type="file" onchange="readURL(this);" />
+                </div>
 
 
-                    <div class="input-field">
-                        <button type="submit" class="btn green darken-3"
-                            style="float:right; margin-top: 560px; margin-right: 1em" name="action">Submit</button>
-                    </div>
+                <div class="input-field">
+                    <button type="submit" class="btn green darken-3"
+                        style="float:right; margin-top: 560px; margin-right: 1em" name="action">Submit</button>
+                </div>
 
-                </form>
-            </div>
+            </form>
+        </div>
 
 
-            <div>
-                <p style="position: absolute; margin-top: 600px; padding: 15px">Powered by:
-                    <a href="https://gmens-middle.herokuapp.com/"><img src="/img/gm-logo.png" width="230px"></a>
-                </p>
-            </div>
-        </nav>
+        <div>
+            <p style="position: absolute; margin-top: 600px; padding: 15px">Powered by:
+                <a href="https://gmens-middle.herokuapp.com/"><img src="/img/gm-logo.png" width="230px"></a>
+            </p>
+        </div>
+    </nav>
 
     </div>
 
@@ -128,7 +141,6 @@
 
 
 <script src="lib/threeGeoJSON.js"></script>
-
 <script src="lib/earth.js"></script>
 
 

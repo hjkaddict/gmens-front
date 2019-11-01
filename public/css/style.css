@@ -4,13 +4,25 @@ html, body {
 }
 
 nav {
+    display: none;
     float: left;
+    box-shadow: none;
     background: rgba(0, 0, 0, 0.5);
     border: none;
     margin: 10px;
     width: 300px;
     height: 800px;
     position: relative;
+    z-index: 1;
+}
+
+.intro {
+     /* display: block;
+    position: relative; */
+    background: red;
+    text-align: center;
+    color: white;
+    height: 100vh;
 }
 
 p {
@@ -29,6 +41,13 @@ p {
     display: inline;
 }
 
+.kren {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+}
+
 button:hover {
     font-weight: bold;
 }
@@ -39,14 +58,11 @@ button:focus {
     text-decoration: underline;
 }
 
-div#globe {
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    border: 0px solid gold;
+#globe {
+    display: none;
     position: absolute !important;
     background: transparent;
+    z-index: 0;
 }
 
 h1 {

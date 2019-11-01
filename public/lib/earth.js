@@ -13,7 +13,7 @@
     //Set the camera position
     camera.position.set(11.4, 9.47, -5.99);
 
-    //scene.background =  new THREE.Color( 0xf0f0f0 );
+    //scene.background =  new THREE.Color( 0xff0000 );
     var picSize = 14;
 
     //Raycaster
@@ -22,7 +22,7 @@
     var onClickPosition = new THREE.Vector2();
 
     //New Renderer
-    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+    var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
@@ -30,33 +30,21 @@
     //Enable controls
     var controls = new THREE.TrackballControls(camera, renderer.domElement);
 
+    //Create planet Object
     var planet = new THREE.Object3D();
 
 
-    //Create Canvas for CanvasTexture
-    var canvas = document.createElement('canvas');
+    //Create Selection Canvas
     var selCanvas = document.createElement('canvas')
-    var ctx = canvas.getContext('2d');
     var selCtx = selCanvas.getContext('2d');
-    canvas.width = 2048;
-    canvas.height = 1024;
     selCanvas.width = 2048;
     selCanvas.height = 1024;
 
-
-    var canvasTexture = new THREE.CanvasTexture(canvas);
     var selCanvasTexture = new THREE.CanvasTexture(selCanvas)
-
-    canvasTexture.wrapS = THREE.RepeatWrapping;
-    canvasTexture.wrapT = THREE.RepeatWrapping;
-    canvasTexture.offset.set(0.25, 0)
-    canvasTexture.repeat.set(1, 1)
-
     selCanvasTexture.wrapS = THREE.RepeatWrapping;
     selCanvasTexture.wrapT = THREE.RepeatWrapping;
     selCanvasTexture.offset.set(0.25, 0)
     selCanvasTexture.repeat.set(1, 1)
-
 
     var selCanvasMaterial = new THREE.MeshBasicMaterial({
         map: selCanvasTexture,
@@ -64,15 +52,32 @@
         side: THREE.DoubleSide
     });
 
+    var selCanvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
 
+    var selCanvasSphere = new THREE.Mesh(selCanvasSphereGeometry, selCanvasMaterial);
+
+    //Create Canvas for CanvasTexture
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    canvas.width = 2048;
+    canvas.height = 1024;
+
+    var canvasTexture = new THREE.CanvasTexture(canvas);
+    canvasTexture.wrapS = THREE.RepeatWrapping;
+    canvasTexture.wrapT = THREE.RepeatWrapping;
+    canvasTexture.offset.set(0.25, 0)
+    canvasTexture.repeat.set(1, 1)
+   
     var canvasMaterial = new THREE.MeshBasicMaterial({
         map: canvasTexture,
         alphaTest: 0.5,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        needsUpdate: true
     });
 
     var canvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
-    var selCanvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
+
+    var canvasSphere = new THREE.Mesh(canvasSphereGeometry, canvasMaterial)
 
     //Import Img Position on globe and draw
 
@@ -80,7 +85,7 @@
     var imgUrlName = [];
 
     $.getJSON("test_geojson/imgPosition.json", function (data) {
-
+        
         imgPosition_data.push(data)
         for (let i = 0; i < data.length; i++) {
             var loader = new THREE.ImageLoader();
@@ -88,14 +93,11 @@
             var address = 'https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum];
             imgUrlName.push(address)
             loader.load(address, function (image) {
-
-                var imageXpos = data[i].FIELD2 * 16,
-                    imageYpos = data[i].FIELD1 * 16;
+                canvasTexture.needsUpdate = true;
                 var radius = 11;
-
+                var imageXpos = data[i].FIELD2 * 16, imageYpos = data[i].FIELD1 * 16;
                 var lon = map_range((data[i].FIELD2 + 32) * 16 + (picSize / 2), 0, 2048, -Math.PI, Math.PI),
                     lat = map_range(data[i].FIELD1 * 16 + (picSize / 2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
-
                 var pos3D = new THREE.Vector3(-radius * Math.cos(lat) * Math.cos(lon), radius * Math.sin(lat), radius * Math.cos(lat) * Math.sin(lon));
 
                 if (image.src === recentUploaded) {
@@ -110,28 +112,20 @@
                 } else {
                     ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
                 }
-
-                //imgUrlName.push(image.src);
             },
                 undefined,
                 function () {
                     console.error('An error happend.');
                 })
+
         }
-    }
+    });
 
-    );
-
-
-
-    var canvasSphere = new THREE.Mesh(canvasSphereGeometry, canvasMaterial)
-    var selCanvasSphere = new THREE.Mesh(selCanvasSphereGeometry, selCanvasMaterial)
+    
 
     //Create Spheres
-
     var transpTexture = new THREE.TextureLoader();
-
-    var transMaterial = new THREE.MeshBasicMaterial({
+    var transpMaterial = new THREE.MeshBasicMaterial({
         map: transpTexture.load('https://gmens-test-1.s3.eu-central-1.amazonaws.com/imageData/2_no_clouds_4k_black2.png', function (transpTexture) {
             transpTexture.wrapS = THREE.RepeatWrapping;
             transpTexture.wrapT = THREE.RepeatWrapping;
@@ -142,12 +136,12 @@
         alphaTest: 0.5
     });
 
-    var geometry = new THREE.SphereGeometry(10, 64, 64);
-    var transSphere = new THREE.Mesh(geometry, transMaterial);
+    var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
+    var transSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
-    planet.add(canvasSphere);
-    planet.add(selCanvasSphere);
-    planet.add(transSphere);
+    planet.add(canvasSphere); //this cause slow
+    //planet.add(selCanvasSphere);
+    //planet.add(transSphere); 
 
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
@@ -209,7 +203,7 @@
             }
         }
         selCanvasTexture.needsUpdate = true;
-        selCanvasTexture.minFilter = THREE.LinearFilter;
+        //selCanvasTexture.minFilter = THREE.LinearFilter;
     }
 
     function displayPreview() {
@@ -238,8 +232,6 @@
     }
 
 
-
-
     globe.appendChild(renderer.domElement);
     scene.add(planet);
 
@@ -249,8 +241,8 @@
     function render() {
 
         drawSelection();
-        canvasTexture.needsUpdate = true;
-        canvasTexture.minFilter = THREE.LinearFilter;
+        // canvasTexture.needsUpdate = true;
+        // canvasTexture.minFilter = THREE.LinearFilter;
 
         controls.update();
         TWEEN.update(); //TWEENing
@@ -266,7 +258,7 @@
         previewBoxCube.translateX(1.7);
         previewBoxCube.translateY(-0.5);
         previewBoxCube.translateZ(-2);
-        
+
 
         displayPreview();
         renderer.render(scene, camera);
