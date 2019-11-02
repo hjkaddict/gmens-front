@@ -6,6 +6,7 @@ Iterates through the latitude and longitude values, converts the values to XYZ c
 */
 
 var scene = new THREE.Scene();
+var planet = new THREE.Object3D();
 
 var x_values = [];
 var y_values = [];
@@ -139,8 +140,7 @@ function drawLine(x_values, y_values, z_values, options) {
 
     var line_material = new THREE.LineBasicMaterial(options);
     var line = new THREE.Line(line_geom, line_material);
-    scene.add(line);
-
+    planet.add(line);
     clearArrays();
 }
 

@@ -60,11 +60,6 @@ app.set('view engine', 'ejs')
 // Public folder
 app.use(express.static('./public'))
 
-app.get('/example', (req, res) => {
-    res.render('example')
-})
-
-
 app.get('/', (req, res) => {
 
     s3.listObjectsV2({
@@ -83,7 +78,8 @@ app.get('/', (req, res) => {
             });
             res.render('index', {
                 imgUrl: '',
-                imgUrls: imgData
+                imgUrls: imgData,
+                introOff: false
             })
         }
     })
@@ -114,7 +110,9 @@ app.post('/upload', upload.single('myImage'), (req, res, next) => {
                 res.render('index', {
                     msg: 'File Uploaded!',
                     imgUrl: req.file.transforms[0].location,
-                    imgUrls: imgData
+                    imgUrls: imgData,
+                    introOff: true
+
                 })
             }
         })

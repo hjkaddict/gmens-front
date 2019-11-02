@@ -7,8 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no" />
 
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+
 
     <!--jQeury-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -17,27 +20,35 @@
     <script src="lib/Detector.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="lib/TrackballControls.js"></script>
-    <script src="lib/OrbitControls.js"></script>
 
 
 
-    <title>GMe&s</title>
+    <title>GM E&S</title>
 </head>
 
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
     <script>
+        var rotationoff = false;
         function introFadeOut() {
-            console.log('executed')
             $(".intro").css("display", "none");
             $("div#globe").css("display", "block");
             $("nav").css("display", "block");
+            rotationoff = true;
         }
+
+
 
     </script>
 
     <div class="intro">
-        <p onclick="introFadeOut();">This is intro and loading page</p>
+        <div class="animated fadeInDown" style="margin-top: 30vh;">
+            <img src="/img/gm-logo-white.png" onclick="introFadeOut();" 
+                style="display: block; margin-left: auto; margin-right: auto; height:20vh;">
+            <h1 class="animated fadeInUp"style="font-family: 'Noto Sans KR'; font-weight: light; font-size: 20px;">지앰이앤에스(LAB)는 사회와 개인 안전의식의 제고를 위한
+                <br>웹기반 User Interaction Application 콘텐츠를 제작합니다. </h1>
+
+        </div>
     </div>
 
     <!-- read url function for image-->
@@ -75,6 +86,7 @@
             })
             $('.translate#en').trigger("click") // select the language when loads
         })
+
 
 
     </script>
@@ -122,10 +134,9 @@
             </form>
         </div>
 
-
         <div>
-            <p style="position: absolute; margin-top: 600px; padding: 15px">Powered by:
-                <a href="https://gmens-middle.herokuapp.com/"><img src="/img/gm-logo.png" width="230px"></a>
+            <p style="position: absolute; margin-top: 600px; padding: 15px">Powered by:<br>
+                <a href="https://gmens-middle.herokuapp.com/"><img src="/img/gm-logo-white.png" style="width:20vh"></a>
             </p>
         </div>
     </nav>
@@ -134,14 +145,21 @@
 
     <script>
         const recentUploaded = "<%=imgUrl%>"
-        const imageUrlArray = "<%=imgUrls%>".split(",")
+        const imageUrlArray = "<%=imgUrls%>".split(",")   
+        const introOffBoolean = "<%=introOff%>"
+        if (introOffBoolean === "true") {
+            introFadeOut();
+        }
+  
+
+
     </script>
 
 </body>
 
 
 <script src="lib/threeGeoJSON.js"></script>
-<script src="lib/earth.js"></script>
+<script src="js/earth.js"></script>
 
 
 </html>
