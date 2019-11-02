@@ -152,8 +152,8 @@
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
-        color: 'black',
-        depthTest: false,
+        color: 'red',
+        depthTest: true,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
@@ -166,7 +166,7 @@
         map: previewBoxTexture.load(''),
         transparent: true,
         opacity: 0,
-        depthTest: false,
+        depthTest: true,
         side: THREE.FrontSide
 
     });
