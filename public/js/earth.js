@@ -225,6 +225,7 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
+            console.log('a')
             preview = true;
         } else if (loading === false) {
             previewBoxBorderMaterial.opacity = 0;
