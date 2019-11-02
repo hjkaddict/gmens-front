@@ -27,7 +27,6 @@ const upload = multer({
 
         //* add a function 'Please upload .jpg .jpeg .png' here
 
-
         shouldTransform: function (req, file, cb) {
             cb(null, /^image/i.test(file.mimetype))
         },
