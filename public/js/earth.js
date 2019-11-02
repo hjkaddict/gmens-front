@@ -268,6 +268,7 @@
         if (!rotationoff) {
             planet.rotation.y -= 0.001;
         }
+        //planet.rotation.y -= 0.01;
         displayPreview();
         renderer.render(scene, camera);
         requestAnimationFrame(render);

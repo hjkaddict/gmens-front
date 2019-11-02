@@ -21,8 +21,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
     <script src="lib/TrackballControls.js"></script>
 
-
-
     <title>GM E&S</title>
 </head>
 
@@ -36,16 +34,14 @@
             $("nav").css("display", "block");
             rotationoff = true;
         }
-
-
-
     </script>
 
     <div class="intro">
         <div class="animated fadeInDown" style="margin-top: 30vh;">
-            <img src="/img/gm-logo-white.png" onclick="introFadeOut();" 
+            <img src="/img/gm-logo-white.png" onclick="introFadeOut();"
                 style="display: block; margin-left: auto; margin-right: auto; height:20vh;">
-            <h1 class="animated fadeInUp"style="font-family: 'Noto Sans KR'; font-weight: light; font-size: 20px;">지앰이앤에스(LAB)는 사회와 개인 안전의식의 제고를 위한
+            <h1 class="animated fadeInUp" style="font-family: 'Noto Sans KR'; font-weight: light; font-size: 20px;">
+                지앰이앤에스(LAB)는 사회와 개인 안전의식의 제고를 위한
                 <br>웹기반 User Interaction Application 콘텐츠를 제작합니다. </h1>
 
         </div>
@@ -145,18 +141,14 @@
 
     <script>
         const recentUploaded = "<%=imgUrl%>"
-        const imageUrlArray = "<%=imgUrls%>".split(",")   
+        const imageUrlArray = "<%=imgUrls%>".split(",")
         const introOffBoolean = "<%=introOff%>"
         if (introOffBoolean === "true") {
             introFadeOut();
         }
-  
-
-
     </script>
 
 </body>
-
 
 <script src="lib/threeGeoJSON.js"></script>
 <script src="js/earth.js"></script>
