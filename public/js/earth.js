@@ -144,7 +144,7 @@
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
     planet.add(canvasSphere); //this cause slow
-    planet.add(selCanvasSphere);
+    //planet.add(selCanvasSphere);
     planet.add(transpSphere);
 
     //Create preview border box
