@@ -152,7 +152,7 @@
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
-        color: 'red',
+        color: 'black',
         depthTest: true,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
@@ -225,13 +225,15 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            console.log('a')
+            
             preview = true;
         } else if (loading === false) {
             previewBoxBorderMaterial.opacity = 0;
             previewBoxMaterial.opacity = 0;
             preview = false;
         }
+
+        console.log(preview)
     }
 
 
