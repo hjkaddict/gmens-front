@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="css/animate.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
 
 
     <!--jQeury-->
@@ -24,39 +23,47 @@
     <title>GM E&S</title>
 
     <script>
-            var rotationoff = false;
-            var menu = false;
-            function introFadeOut() {
-                $(".intro").css("display", "none");
-                $("div#globe").css("display", "block");
-                //$(".navdiv").css("display", "inline-block");
-                rotationoff = true;
+        var rotationoff = false;
+        var menu = false;
+        function introFadeOut() {
+            $(".intro").css("display", "none");
+            $("div#globe").css("display", "block");
+            $(".dropdownbutton").css("display", "block");
+            rotationoff = true;
+        }
+        function showdes_main() {
+            $(".introdes-main").css("display", "block");
+        }
+
+        function hidedes_main() {
+            $(".introdes-main").css("display", "none");
+        }
+        function showdes() {
+            $(".introdes-lab").css("display", "block");
+        }
+        function hidedes() {
+            $(".introdes-lab").css("display", "none");
+        }
+
+        function showmenu() {
+            menu = !menu;
+            if (menu) {
+                $("#navdiv").css("display", "inline-block");
+                $('.dot').css("-webkit-animation", "stop");
+                $('.dot').css("-moz-animation", "stop");
+                $('.dot').css("-o-animation", "stop");
+                $('.dot').css("animation", "stop");
+            } else {
+                $("#navdiv").css("display", "none");
+                $('.dot').css("-webkit-animation", "blinking 0.5s infinite");
+                $('.dot').css("-moz-animation", "blinking 0.5s infinite");
+                $('.dot').css("-o-animation", "blinking 0.5s infinite");
+                $('.dot').css("animation", "blinking 0.5s infinite");
             }
-            function showdes_main() {
-                $(".introdes-main").css("display", "block");
-            }
-    
-            function hidedes_main() {
-                $(".introdes-main").css("display", "none");
-            }
-            function showdes() {
-                $(".introdes-lab").css("display", "block");
-            }
-            function hidedes() {
-                $(".introdes-lab").css("display", "none");
-            }
-    
-            function showmenu() {
-                menu = !menu;
-                if (menu) {
-                    $("#navdiv").css("display", "inline-block");
-                } else {
-                    $("#navdiv").css("display", "none");
-                }
-            }
-    
-        </script>
-    
+        }
+
+    </script>
+
 
 </head>
 
@@ -98,7 +105,7 @@
     <script>
         var arrLang = {
             'en': {
-                'title': 'Fire Prevention <br> Image Cloud',
+                'title': 'Fire Prevention Image Cloud',
                 'about': "Using their digital devices, users can upload images of fire prevention tools and infrastructures in their surroundings to the website's application. The images will be added to the collection on the website's 3D model of earth in real-time. During this process, the images will gradually undergo processing to turn from red, signaling fire and danger, to green, symbolizing safety. Not only can users upload images, they will be able to interact with the model earth to view other submissions and their corresponding information around the globe. This project will invoke direct participation from users via digital devices, therefore serving as a means to raise public awareness of social safety and fire prevention.",
                 'introdes-main': 'GO TO GM E&S MAIN WEBPAGE',
                 'introdes-lab': '지엠이앤에스랩 은 당사가 본질적으로 추구하는 방향인 사회와 개인 안전의식 제고를 위한 디지털 환경, 인터랙티브 콘텐츠를 디자인합니다.'
@@ -136,12 +143,13 @@
     </div>
 
     <div class="dropdownbutton" onclick="showmenu();">
-        <span class="dot"></span>
+        <span class="dot dotblink"></span>
     </div>
 
 
     <div id="navdiv">
-        <p class="lang" key="title" style="font-size:30px; font-weight: 600;"></p>
+        <p class="lang" key="title" style="text-align: center; font-size:30px; font-weight: 600;"></p>
+
         <div class="imgBox">
             <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
         </div>
