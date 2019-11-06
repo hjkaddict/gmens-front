@@ -150,28 +150,22 @@
     <div id="navdiv">
         <p class="lang" key="title" style="text-align: center; font-size:30px; font-weight: 600;"></p>
 
-        <div class="imgBox">
+        <div id="imgBox">
             <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
         </div>
 
-        <div class="cotainer">
+        <div class="cotainer" style="margin: 1em; text-align: center;">
             <form action="/upload" method="POST" enctype="multipart/form-data">
-                <div class="file-field input-field btn green darken-3" style="float:left; margin-left: 1em;">
-                    <span> Upload </span>
-                    <input name="myImage" type="file" onchange="readURL(this);" />
-                </div>
+                <button class="file-field btn green darken-3" style="" name="action">Upload <input name="myImage"
+                        type="file" onchange="readURL(this);" /> </button>
 
-                <div class="input-field">
-                    <button type="submit" class="btn green darken-3"
-                        style="float:right; margin-right: 1em; margin-top: 1em;" name="action">Submit</button>
-                </div>
-
+                <button type="submit" class="btn green darken-3" style="" name="action">Submit</button>
             </form>
         </div>
 
 
         <p class="lang" key="about"
-            style="position: relative; margin-top: 5em; font-size: 15px; line-height: 1em; font-weight: 100;">
+            style="position: relative; font-size: 15px; line-height: 1em; font-weight: 100;">
         </p>
 
         <div>

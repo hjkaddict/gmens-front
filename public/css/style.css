@@ -68,11 +68,7 @@ body {
     z-index: 1;
 }
 
-@media (max-width: 768px) {
-    #navdiv {
-        width: 100%;
-    }
-}
+
 
 .intro {
     /* display: block; */
@@ -199,7 +195,7 @@ h2 {
     width: 450px;
 }
 
-.imgBox {
+#imgBox {
     position: relative;
     text-align: center;
     left: 50%;
@@ -221,4 +217,13 @@ h2 {
     top: 80%;
     left: 15%;
     transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+    #navdiv {
+        width: 100%;
+    }
+    #imgBox {
+        width: 90%;
+    }
 }
