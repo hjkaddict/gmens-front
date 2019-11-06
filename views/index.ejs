@@ -48,7 +48,7 @@
         function showmenu() {
             menu = !menu;
             if (menu) {
-                $("#navdiv").css("display", "inline-block");
+                $("#navdiv").css("display", "block");
                 $('.dot').css("-webkit-animation", "stop");
                 $('.dot').css("-moz-animation", "stop");
                 $('.dot').css("-o-animation", "stop");
@@ -67,9 +67,8 @@
 
 </head>
 
-<!-- <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false"> -->
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
-<body>
 
     <div class="intro">
         <div class="animated fadeInDown" style="margin-top: 30vh; text-align:center;">
@@ -138,12 +137,12 @@
     <div id="globe"> </div>
 
     <div class="kren">
-        <button class="translate" id="en"> EN </button>
-        <button class="translate" id="kr"> KR </button>
+        <div class="translate" id="en">EN</div> 
+        <div class="translate" id="kr">KR</div>
     </div>
 
     <div class="dropdownbutton" onclick="showmenu();">
-        <span class="dot dotblink"></span>
+        <span class="dot"></span>
     </div>
 
 
