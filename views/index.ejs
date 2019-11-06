@@ -22,43 +22,47 @@
     <script src="lib/TrackballControls.js"></script>
 
     <title>GM E&S</title>
-</head>
-
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 
     <script>
-        var rotationoff = false;
-        var menu = false;
-        function introFadeOut() {
-            $(".intro").css("display", "none");
-            $("div#globe").css("display", "block");
-            //$(".navdiv").css("display", "inline-block");
-            rotationoff = true;
-        }
-        function showdes_main() {
-            $(".introdes-main").css("display", "block");
-        }
-
-        function hidedes_main() {
-            $(".introdes-main").css("display", "none");
-        }
-        function showdes() {
-            $(".introdes-lab").css("display", "block");
-        }
-        function hidedes() {
-            $(".introdes-lab").css("display", "none");
-        }
-
-        function showmenu() {
-            menu = !menu;
-            if (menu) {
-                $(".navdiv").css("display", "inline-block");
-            } else {
-                $(".navdiv").css("display", "none");
+            var rotationoff = false;
+            var menu = false;
+            function introFadeOut() {
+                $(".intro").css("display", "none");
+                $("div#globe").css("display", "block");
+                //$(".navdiv").css("display", "inline-block");
+                rotationoff = true;
             }
-        }
+            function showdes_main() {
+                $(".introdes-main").css("display", "block");
+            }
+    
+            function hidedes_main() {
+                $(".introdes-main").css("display", "none");
+            }
+            function showdes() {
+                $(".introdes-lab").css("display", "block");
+            }
+            function hidedes() {
+                $(".introdes-lab").css("display", "none");
+            }
+    
+            function showmenu() {
+                menu = !menu;
+                if (menu) {
+                    $("#navdiv").css("display", "inline-block");
+                } else {
+                    $("#navdiv").css("display", "none");
+                }
+            }
+    
+        </script>
+    
 
-    </script>
+</head>
+
+<!-- <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false"> -->
+
+<body>
 
     <div class="intro">
         <div class="animated fadeInDown" style="margin-top: 30vh; text-align:center;">
@@ -75,9 +79,6 @@
         <div class="introdes-lab">
             <p class="lang" key="introdes-lab"></p>
         </div>
-
-
-
     </div>
 
     <!-- read url function for image-->
@@ -135,15 +136,12 @@
     </div>
 
     <div class="dropdownbutton" onclick="showmenu();">
-        <svg xmlns="http://www.w3.org/2000/svg">
-            <circle cx="20" cy="20" r="20" fill="white" />
-        </svg>
+        <span class="dot"></span>
     </div>
 
 
-    <div class="navdiv">
+    <div id="navdiv">
         <p class="lang" key="title" style="font-size:30px; font-weight: 600;"></p>
-
         <div class="imgBox">
             <img id="blah" src="<%= typeof imgUrl != 'undefined' ? imgUrl : '' %>" class="responsive">
         </div>
@@ -167,12 +165,6 @@
         <p class="lang" key="about"
             style="position: relative; margin-top: 5em; font-size: 15px; line-height: 1em; font-weight: 100;">
         </p>
-
-
-
-
-        <!-- <h2><%= typeof msg != 'undefined' ? msg : '' %></h2> -->
-
 
         <div>
             <p style="position: relative; padding: 15px">Powered by:<br>

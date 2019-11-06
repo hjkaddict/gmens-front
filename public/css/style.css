@@ -17,25 +17,41 @@ body {
     background-color: black;
     margin: auto 0;
 }
-
-.dropdownbutton{
-    margin: 1em;
+.dropdownbutton {
+    display: block;
     position: relative;
-    display:block;
-    color:white;
+    top: 10px;
+    left: 10px;
     z-index: 1;
 }
 
-.navdiv {
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color:white;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+#navdiv {
     display: none;
     box-shadow: none;
     color: white;
-    background: rgba(255, 0, 0, 0.5);
+    /* background: rgba(255, 0, 0, 0.5); */
     margin: 10px;
-    width: 300px;
     position: relative;
+    width: 300px;
     z-index: 1;
 }
+
+@media (max-width: 768px) {
+    #navdiv {
+        width: 100%;
+    }
+}
+
+
+
 
 .intro {
     /* display: block; */
@@ -65,10 +81,10 @@ p {
 
 .kren {
     display: block;
-    position: absolute;
+    position: relative;
     top: 10px;
     right: 10px;
-    z-index: 99;
+    z-index: 3;
 }
 
 button:hover {
@@ -121,8 +137,6 @@ h2 {
     margin: 0px;
 }
 
-
-
 .responsive {
     max-width: 100%;
     max-height: 100%;
@@ -142,8 +156,19 @@ h2 {
     cursor: pointer;
 }
 
-.introdes-main{
+.introdes-main {
     position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    display: none;
+    margin-top: 50px;
+    /* text-align: center; */
+    font-size: 15px;
+    width: 450px;
+}
+
+.introdes-lab {
+    position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
     display: none;
@@ -152,20 +177,6 @@ h2 {
     font-size: 15px;
     width: 450px;
 }
-
-.introdes-lab{
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    display: none;
-    margin-top: 50px;
-    text-align: center;
-    font-size: 15px;
-    width: 450px;
-}
-
-
-
 
 .imgBox {
     position: relative;
