@@ -25,9 +25,9 @@
 
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(window.innerWidth-20, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    document.body.appendChild(renderer.domElement);
+    // document.body.appendChild(renderer.domElement);
 
     //Enable controls
     var controls = new THREE.TrackballControls(camera, renderer.domElement);
@@ -225,7 +225,7 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            
+
             preview = true;
         } else if (loading === false) {
             previewBoxBorderMaterial.opacity = 0;

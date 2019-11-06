@@ -68,6 +68,7 @@
 </head>
 
 <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+    <!-- <body> -->
 
 
     <div class="intro">
@@ -142,7 +143,7 @@
     </div>
 
     <div class="dropdownbutton" onclick="showmenu();">
-        <span class="dot"></span>
+        <div class="dot"></div>
     </div>
 
 
@@ -155,10 +156,10 @@
 
         <div class="cotainer" style="margin: 1em; text-align: center;">
             <form action="/upload" method="POST" enctype="multipart/form-data">
-                <button class="file-field btn green darken-3" style="" name="action">Upload <input name="myImage"
+                <button class="file-field btn green darken-3" name="action">Upload <input name="myImage"
                         type="file" onchange="readURL(this);" /> </button>
-
-                <button type="submit" class="btn green darken-3" style="" name="action">Submit</button>
+ 
+                <button type="submit" class="btn green darken-3" name="action">Submit</button>
             </form>
         </div>
 
@@ -184,7 +185,6 @@
             introFadeOut();
         }
     </script>
-
 </body>
 
 <script src="lib/threeGeoJSON.js"></script>
