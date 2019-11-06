@@ -143,7 +143,7 @@
     var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
-    planet.add(canvasSphere); //this cause slow
+    //planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     planet.add(transpSphere);
 
