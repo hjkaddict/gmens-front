@@ -157,8 +157,6 @@
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
-
-
     //Create preview box
     var previewBoxGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
     var previewBoxTexture = new THREE.TextureLoader();
@@ -171,9 +169,6 @@
 
     });
     var previewBoxCube = new THREE.Mesh(previewBoxGeometry, previewBoxMaterial);
-
-
-
 
     //Draw lines
     $.getJSON("json/countries.json", function (data) {
