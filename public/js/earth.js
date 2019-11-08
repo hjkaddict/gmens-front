@@ -206,11 +206,11 @@
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
                     console.log('a')
-                    // previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
-                    previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                    previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
+                    // previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
                 } else {
-                    // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
-                    previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                    previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
+                    // previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
                     console.log('b')
                 }
 
@@ -239,7 +239,7 @@
     globe.addEventListener('mousemove', onMouseMove, false);
 
     scene.add(previewBoxCube);
-    scene.add(previewBoxBorderCube);
+    // scene.add(previewBoxBorderCube);
 
 
     //Render the image
