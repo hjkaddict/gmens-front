@@ -7,9 +7,6 @@
         return;
     }
 
-
-``
-
     //New scene and camera
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 1000);
     //Set the camera position
@@ -124,6 +121,9 @@
 
         }
     });
+    
+    
+
 
 
 
@@ -143,9 +143,19 @@
     var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
+        //Create test box
+        var testboxGeomtry = new THREE.BoxGeometry(10, 10, 0);
+        var testBoxMaterial = new THREE.MeshBasicMaterial({
+            color: 'red'
+        });
+    
+        var testBox = new THREE.Mesh(testboxGeomtry, testBoxMaterial);
+    
+
     planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     //planet.add(transpSphere);
+    planet.add(testBox);
 
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
@@ -228,7 +238,7 @@
         }
     }
 
-
+    
     globe.appendChild(renderer.domElement);
     scene.add(planet);
 
@@ -236,6 +246,7 @@
 
     scene.add(previewBoxCube);
     scene.add(previewBoxBorderCube);
+    
 
 
 
