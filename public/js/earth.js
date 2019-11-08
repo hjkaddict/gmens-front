@@ -151,7 +151,7 @@
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
-        color: 'black',
+        color: 'red',
         depthTest: false,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
@@ -239,7 +239,7 @@
     globe.addEventListener('mousemove', onMouseMove, false);
 
     scene.add(previewBoxCube);
-    // scene.add(previewBoxBorderCube);
+    scene.add(previewBoxBorderCube);
 
 
     //Render the image
