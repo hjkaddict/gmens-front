@@ -161,10 +161,12 @@
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
-        transparent: true,
-        opacity: 0,
-        color: 'black',
-        depthTest: true,
+        // transparent: true,
+        // opacity: 0,
+        // color: 'black',
+        // depthTest: true,
+        color: 'red',
+        alphaTest: 0.5
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
@@ -229,7 +231,7 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            testBoxMaterial.opacity = 0.5;
+            testBoxMaterial.opacity = 0.8;
             console.log('true');
             preview = true;
         } else if (loading === false) {
@@ -273,14 +275,6 @@
         previewBoxCube.translateX(1.7);
         previewBoxCube.translateY(-0.5);
         previewBoxCube.translateZ(-2);
-
-        // testBox.position.copy(camera.position)
-        // testBox.rotation.copy(camera.rotation)
-        // testBox.updateMatrix();
-        // testBox.translateX(1.7);
-        // testBox.translateY(-0.5);
-        // testBox.translateZ(-2);
-
         
         if (!rotationoff) {
             planet.rotation.y -= 0.001;
