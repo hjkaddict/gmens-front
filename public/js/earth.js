@@ -205,13 +205,13 @@
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 console.log('loaded')
-                if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
-                    previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
-                    previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
-                } else {
-                    previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
-                    previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
-                }
+                // if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
+                //     previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
+                //     previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                // } else {
+                //     previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
+                //     previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                // }
 
                 previewBoxTexture.minFilter = THREE.LinearFilter;
                 console.log('loaded2')
