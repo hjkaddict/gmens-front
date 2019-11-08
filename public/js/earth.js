@@ -155,7 +155,7 @@
     planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     //planet.add(transpSphere);
-    planet.add(testBox);
+    scene.add(testBox);
 
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
