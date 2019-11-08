@@ -229,7 +229,7 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            testBoxMaterial.opacity = 1.0
+            testBoxMaterial.opacity = 0.5;
             console.log('true');
             preview = true;
         } else if (loading === false) {
