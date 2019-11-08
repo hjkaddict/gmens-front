@@ -151,7 +151,7 @@
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
-        color: 'red',
+        color: 'black',
         depthTest: false,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
@@ -205,16 +205,16 @@
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
-                    // previewBoxCube.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
                     previewBoxCube.scale.x = 1;
                     previewBoxCube.scale.y = previewBoxTexture.image.height / previewBoxTexture.image.width;
-                    // previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                    previewBoxBorderCube.scale.x = 1.1;
+                    previewBoxBorderCube.scale.y = (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1;
                 } else {
-                    // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
                     previewBoxCube.scale.x = previewBoxTexture.image.width / previewBoxTexture.image.height;
                     previewBoxCube.scale.y = 1;
+                    previewBoxBorderCube.scale.x = (previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1;
+                    previewBoxBorderCube.scale.y = 1.1;
 
-                    // previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
                 }
 
                 previewBoxTexture.minFilter = THREE.LinearFilter;
@@ -249,8 +249,8 @@
     function render() {
 
         drawSelection();
-        canvasTexture.needsUpdate = true;
-        canvasTexture.minFilter = THREE.LinearFilter;
+        // canvasTexture.needsUpdate = true;
+        // canvasTexture.minFilter = THREE.LinearFilter;
 
         controls.update();
         TWEEN.update(); //TWEENing
