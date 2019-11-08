@@ -144,11 +144,11 @@
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
     //Create test box
-    var testboxGeomtry = new THREE.BoxGeometry(2, 2, 0);
+    var testboxGeomtry = new THREE.BoxGeometry(1, 1, 0);
     var testBoxMaterial = new THREE.MeshBasicMaterial({
         color: 'red',
-        opacity: 0.0
-    });
+        alphaTest: 0.5
+        });
 
     var testBox = new THREE.Mesh(testboxGeomtry, testBoxMaterial);
 
@@ -164,7 +164,7 @@
         transparent: true,
         opacity: 0,
         color: 'black',
-        depthTest: false,
+        depthTest: true,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
@@ -175,7 +175,7 @@
         map: previewBoxTexture.load(''),
         transparent: true,
         opacity: 0,
-        depthTest: false,
+        depthTest: true,
         side: THREE.FrontSide
     });
     var previewBoxCube = new THREE.Mesh(previewBoxGeometry, previewBoxMaterial);
@@ -261,25 +261,25 @@
 
         controls.update();
         TWEEN.update(); //TWEENing
-        // previewBoxBorderCube.position.copy(camera.position)
-        // previewBoxBorderCube.rotation.copy(camera.rotation)
-        // previewBoxBorderCube.updateMatrix();
-        // previewBoxBorderCube.translateX(1.7);
-        // previewBoxBorderCube.translateY(-0.5);
-        // previewBoxBorderCube.translateZ(-2);
-        // previewBoxCube.position.copy(camera.position)
-        // previewBoxCube.rotation.copy(camera.rotation)
-        // previewBoxCube.updateMatrix();
-        // previewBoxCube.translateX(1.7);
-        // previewBoxCube.translateY(-0.5);
-        // previewBoxCube.translateZ(-2);
+        previewBoxBorderCube.position.copy(camera.position)
+        previewBoxBorderCube.rotation.copy(camera.rotation)
+        previewBoxBorderCube.updateMatrix();
+        previewBoxBorderCube.translateX(1.7);
+        previewBoxBorderCube.translateY(-0.5);
+        previewBoxBorderCube.translateZ(-2);
+        previewBoxCube.position.copy(camera.position)
+        previewBoxCube.rotation.copy(camera.rotation)
+        previewBoxCube.updateMatrix();
+        previewBoxCube.translateX(1.7);
+        previewBoxCube.translateY(-0.5);
+        previewBoxCube.translateZ(-2);
 
-        testBox.position.copy(camera.position)
-        testBox.rotation.copy(camera.rotation)
-        testBox.updateMatrix();
-        testBox.translateX(1.7);
-        testBox.translateY(-0.5);
-        testBox.translateZ(-2);
+        // testBox.position.copy(camera.position)
+        // testBox.rotation.copy(camera.rotation)
+        // testBox.updateMatrix();
+        // testBox.translateX(1.7);
+        // testBox.translateY(-0.5);
+        // testBox.translateZ(-2);
 
         
         if (!rotationoff) {
