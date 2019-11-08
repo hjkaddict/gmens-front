@@ -144,7 +144,7 @@
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
     //Create test box
-    var testboxGeomtry = new THREE.BoxGeometry(10, 10, 0);
+    var testboxGeomtry = new THREE.BoxGeometry(2, 2, 0);
     var testBoxMaterial = new THREE.MeshBasicMaterial({
         color: 'red',
         opacity: 0.0
@@ -214,7 +214,6 @@
     }
 
     function displayPreview() {
-
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
@@ -225,7 +224,7 @@
                     previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
                 }
 
-                previewBoxTexture.minFilter = THREE.LinearFilter;
+                // previewBoxTexture.minFilter = THREE.LinearFilter;
 
             })
             previewBoxBorderMaterial.opacity = 0.8;
@@ -257,23 +256,32 @@
     function render() {
 
         drawSelection();
-        // canvasTexture.needsUpdate = true;
-        // canvasTexture.minFilter = THREE.LinearFilter;
+        canvasTexture.needsUpdate = true;
+        canvasTexture.minFilter = THREE.LinearFilter;
 
         controls.update();
         TWEEN.update(); //TWEENing
-        previewBoxBorderCube.position.copy(camera.position)
-        previewBoxBorderCube.rotation.copy(camera.rotation)
-        previewBoxBorderCube.updateMatrix();
-        previewBoxBorderCube.translateX(1.7);
-        previewBoxBorderCube.translateY(-0.5);
-        previewBoxBorderCube.translateZ(-2);
-        previewBoxCube.position.copy(camera.position)
-        previewBoxCube.rotation.copy(camera.rotation)
-        previewBoxCube.updateMatrix();
-        previewBoxCube.translateX(1.7);
-        previewBoxCube.translateY(-0.5);
-        previewBoxCube.translateZ(-2);
+        // previewBoxBorderCube.position.copy(camera.position)
+        // previewBoxBorderCube.rotation.copy(camera.rotation)
+        // previewBoxBorderCube.updateMatrix();
+        // previewBoxBorderCube.translateX(1.7);
+        // previewBoxBorderCube.translateY(-0.5);
+        // previewBoxBorderCube.translateZ(-2);
+        // previewBoxCube.position.copy(camera.position)
+        // previewBoxCube.rotation.copy(camera.rotation)
+        // previewBoxCube.updateMatrix();
+        // previewBoxCube.translateX(1.7);
+        // previewBoxCube.translateY(-0.5);
+        // previewBoxCube.translateZ(-2);
+
+        testBox.position.copy(camera.position)
+        testBox.rotation.copy(camera.rotation)
+        testBox.updateMatrix();
+        testBox.translateX(1.7);
+        testBox.translateY(-0.5);
+        testBox.translateZ(-2);
+
+        
         if (!rotationoff) {
             planet.rotation.y -= 0.001;
         }
