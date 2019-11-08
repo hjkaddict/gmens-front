@@ -166,7 +166,6 @@
         opacity: 0,
         depthTest: false,
         side: THREE.FrontSide
-
     });
     var previewBoxCube = new THREE.Mesh(previewBoxGeometry, previewBoxMaterial);
 
