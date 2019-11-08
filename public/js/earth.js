@@ -143,21 +143,9 @@
     var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
-    //Create test box
-    var testboxGeomtry = new THREE.BoxGeometry(1, 1, 0);
-    var testBoxMaterial = new THREE.MeshBasicMaterial({
-        color: 'red',
-        alphaTest: 0.5
-        });
-
-    var testBox = new THREE.Mesh(testboxGeomtry, testBoxMaterial);
-
-
     planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     //planet.add(transpSphere);
-    // planet.add(testBox);
-
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
@@ -229,14 +217,15 @@
             // })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            testBoxMaterial.opacity = 0.8;
-            console.log('true');
+            
             preview = true;
+            console.log('true');
         } else if (loading === false) {
+            
             previewBoxBorderMaterial.opacity = 0;
             previewBoxMaterial.opacity = 0;
-            testBoxMaterial.opacity = 0.0;
             preview = false;
+            console.log('false')
         }
     }
 
