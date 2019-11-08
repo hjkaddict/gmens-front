@@ -151,7 +151,7 @@
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
-        color: 'red',
+        color: 'black',
         depthTest: false,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
@@ -207,10 +207,10 @@
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
                     console.log('a')
                     // previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
-                    // previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                    previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
                 } else {
                     // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
-                    // previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                    previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
                     console.log('b')
                 }
 
