@@ -164,7 +164,7 @@
         transparent: true,
         opacity: 0,
         color: 'red',
-        depthTest: true,
+        depthTest: false,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
@@ -175,7 +175,7 @@
         map: previewBoxTexture.load(''),
         transparent: true,
         opacity: 0,
-        depthTest: true,
+        depthTest: false,
         side: THREE.FrontSide
     });
     var previewBoxCube = new THREE.Mesh(previewBoxGeometry, previewBoxMaterial);
