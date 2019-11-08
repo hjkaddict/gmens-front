@@ -174,6 +174,9 @@
 
     var loading = false;
     var preview = false;
+    var changetouch = false;
+    var tmpXpos, tmpYpos;
+    var tmpchangetouch = false;
 
     var previewAddress = ''
 
@@ -181,20 +184,48 @@
         selCtx.clearRect(0, 0, 2048, 1024);
         loading = false;
 
-        if (imgPosition_data[0] !== undefined) {
-            for (let i = 0; i < imgPosition_data[0].length; i++) {
-                var xPos = imgPosition_data[0][i].FIELD2 * 16;
-                var yPos = imgPosition_data[0][i].FIELD1 * 16;
-                if (xCross > xPos && xCross < xPos + picSize && yCross > yPos && yCross < yPos + picSize && loading === false) {
-                    selCtx.fillStyle = 'blue';
-                    selCtx.fillRect(xPos - 1, yPos - 1, 16, 16);
-                    previewAddress = imgUrlName[i];
-                    loading = true;
+        if (window.innerWidth < 768) {
+            if (imgPosition_data[0] !== undefined) {
+                for (let i = 0; i < imgPosition_data[0].length; i++) {
+                    var xPos = imgPosition_data[0][i].FIELD2 * 16;
+                    var yPos = imgPosition_data[0][i].FIELD1 * 16;
+
+                    if (xCross > xPos && xCross < xPos + picSize && yCross > yPos && yCross < yPos + picSize && loading === false) {
+                        if (tmpXpos != xCross || tmpYpos != yCross) {
+                            tmpchangetouch = changetouch;
+                            changetouch = !changetouch;
+                            preview = false;
+                        }
+                        selCtx.fillStyle = 'blue';
+                        selCtx.fillRect(xPos - 1, yPos - 1, 16, 16);
+                        previewAddress = imgUrlName[i];
+                        loading = true;
+                    }
                 }
             }
+        } else {
+            if (imgPosition_data[0] !== undefined) {
+                for (let i = 0; i < imgPosition_data[0].length; i++) {
+                    var xPos = imgPosition_data[0][i].FIELD2 * 16;
+                    var yPos = imgPosition_data[0][i].FIELD1 * 16;
+                    if (xCross > xPos && xCross < xPos + picSize && yCross > yPos && yCross < yPos + picSize && loading === false) {
+                        selCtx.fillStyle = 'blue';
+                        selCtx.fillRect(xPos - 1, yPos - 1, 16, 16);
+                        previewAddress = imgUrlName[i];
+                        loading = true;
+                    }
+                }
+            }
+
         }
+
+
+
+        tmpXpos = xCross;
+        tmpYpos = yCross;
         selCanvasTexture.needsUpdate = true;
-        selCanvasTexture.minFilter = THREE.LinearFilter;
+        // selCanvasTexture.minFilter = THREE.LinearFilter;
+
     }
 
     // console.log(window.innerWidth);
@@ -214,7 +245,6 @@
                     previewBoxBorderCube.scale.y = 1.1;
                 }
                 previewBoxTexture.minFilter = THREE.LinearFilter;
-
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
@@ -288,6 +318,8 @@
     var xCross, yCross;
 
     //functions below:
+
+
     function onMouseMove(evt) {
         evt.preventDefault();
         var array = getMousePosition(globe, evt.clientX, evt.clientY);
