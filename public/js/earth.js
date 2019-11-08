@@ -22,16 +22,12 @@
 
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth - 20, window.innerHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     // document.body.appendChild(renderer.domElement);
 
     //Enable controls
     var controls = new THREE.TrackballControls(camera, renderer.domElement);
-
-    //Create planet Object
-
-
 
 
     //Create Selection Canvas
@@ -201,6 +197,8 @@
         selCanvasTexture.minFilter = THREE.LinearFilter;
     }
 
+    // console.log(window.innerWidth);
+
     function displayPreview() {
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
@@ -214,24 +212,19 @@
                     previewBoxCube.scale.y = 1;
                     previewBoxBorderCube.scale.x = (previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1;
                     previewBoxBorderCube.scale.y = 1.1;
-
                 }
-
                 previewBoxTexture.minFilter = THREE.LinearFilter;
-
 
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
 
             preview = true;
-            // console.log('true');
         } else if (loading === false) {
 
             previewBoxBorderMaterial.opacity = 0;
             previewBoxMaterial.opacity = 0;
             preview = false;
-            // console.log('false')
         }
     }
 
@@ -256,16 +249,29 @@
         TWEEN.update(); //TWEENing
         previewBoxBorderCube.position.copy(camera.position)
         previewBoxBorderCube.rotation.copy(camera.rotation)
-        previewBoxBorderCube.updateMatrix();
-        previewBoxBorderCube.translateX(1.7);
-        previewBoxBorderCube.translateY(-0.5);
-        previewBoxBorderCube.translateZ(-2);
         previewBoxCube.position.copy(camera.position)
         previewBoxCube.rotation.copy(camera.rotation)
-        previewBoxCube.updateMatrix();
-        previewBoxCube.translateX(1.7);
-        previewBoxCube.translateY(-0.5);
-        previewBoxCube.translateZ(-2);
+
+        if (window.innerWidth > 768) {
+            previewBoxBorderCube.updateMatrix();
+            previewBoxBorderCube.translateX(1.7);
+            previewBoxBorderCube.translateY(-0.5);
+            previewBoxBorderCube.translateZ(-2);
+            previewBoxCube.updateMatrix();
+            previewBoxCube.translateX(1.7);
+            previewBoxCube.translateY(-0.5);
+            previewBoxCube.translateZ(-2);
+        } else {
+            previewBoxBorderCube.updateMatrix();
+            previewBoxBorderCube.translateX(0);
+            previewBoxBorderCube.translateY(-0.5);
+            previewBoxBorderCube.translateZ(-2);
+            previewBoxCube.updateMatrix();
+            previewBoxCube.translateX(0);
+            previewBoxCube.translateY(-0.5);
+            previewBoxCube.translateZ(-2);
+
+        }
 
         if (!rotationoff) {
             planet.rotation.y -= 0.001;
