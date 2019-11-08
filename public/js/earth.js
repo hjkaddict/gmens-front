@@ -80,47 +80,43 @@
     var imgPosition_data = []
     var imgUrlName = [];
 
-    $.getJSON("json/imgPosition.json", function (data) {
+    // $.getJSON("json/imgPosition.json", function (data) {
 
-        imgPosition_data.push(data)
-        for (let i = 0; i < data.length; i++) {
-            var loader = new THREE.ImageLoader();
-            let randNum = getRandomInt(imageUrlArray.length);
-            var address = 'https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum];
-            imgUrlName.push(address)
-            loader.load(address, function (image) {
+    //     imgPosition_data.push(data)
+    //     for (let i = 0; i < data.length; i++) {
+    //         var loader = new THREE.ImageLoader();
+    //         let randNum = getRandomInt(imageUrlArray.length);
+    //         var address = 'https://gmens-test-1.s3.eu-central-1.amazonaws.com/' + imageUrlArray[randNum];
+    //         imgUrlName.push(address)
+    //         loader.load(address, function (image) {
 
-                var radius = 11;
-                var imageXpos = data[i].FIELD2 * 16, imageYpos = data[i].FIELD1 * 16;
-                var lon = map_range((data[i].FIELD2 + 32) * 16 + (picSize / 2), 0, 2048, -Math.PI, Math.PI),
-                    lat = map_range(data[i].FIELD1 * 16 + (picSize / 2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
-                var pos3D = new THREE.Vector3(-radius * Math.cos(lat) * Math.cos(lon), radius * Math.sin(lat), radius * Math.cos(lat) * Math.sin(lon));
+    //             var radius = 11;
+    //             var imageXpos = data[i].FIELD2 * 16, imageYpos = data[i].FIELD1 * 16;
+    //             var lon = map_range((data[i].FIELD2 + 32) * 16 + (picSize / 2), 0, 2048, -Math.PI, Math.PI),
+    //                 lat = map_range(data[i].FIELD1 * 16 + (picSize / 2), 1024, 0, -1 * Math.PI / 2, Math.PI / 2);
+    //             var pos3D = new THREE.Vector3(-radius * Math.cos(lat) * Math.cos(lon), radius * Math.sin(lat), radius * Math.cos(lat) * Math.sin(lon));
 
-                if (image.src === recentUploaded) {
-                    //Draw Red border when uploaded
-                    ctx.fillStyle = 'red';
-                    ctx.fillRect(imageXpos - 1, imageYpos - 1, picSize + 2, picSize + 2);
-                    ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
-                    //Move Camera when uploaded
-                    var targetPosition = pos3D,
-                        duration = 4000;
-                    tweenCamera(targetPosition, duration);
-                } else {
-                    ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
-                }
-                canvasTexture.needsUpdate = true;
-            },
-                undefined,
-                function () {
-                    console.error('An error happend.');
-                })
+    //             if (image.src === recentUploaded) {
+    //                 //Draw Red border when uploaded
+    //                 ctx.fillStyle = 'red';
+    //                 ctx.fillRect(imageXpos - 1, imageYpos - 1, picSize + 2, picSize + 2);
+    //                 ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
+    //                 //Move Camera when uploaded
+    //                 var targetPosition = pos3D,
+    //                     duration = 4000;
+    //                 tweenCamera(targetPosition, duration);
+    //             } else {
+    //                 ctx.drawImage(image, imageXpos, imageYpos, picSize, picSize);
+    //             }
+    //             canvasTexture.needsUpdate = true;
+    //         },
+    //             undefined,
+    //             function () {
+    //                 console.error('An error happend.');
+    //             })
 
-        }
-    });
-
-
-
-
+    //     }
+    // });
 
 
     //Create Spheres

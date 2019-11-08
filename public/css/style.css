@@ -1,6 +1,4 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
-
 body {
     background-color: black;
     margin: auto 0;
@@ -18,12 +16,12 @@ body {
 }
 
 .dot {
-    position:relative;
+    position: relative;
     height: 40px;
     width: 40px;
     border-radius: 50%;
     display: block;
-    background-color:white;
+    background-color: white;
     -webkit-animation: blinking 0.5s infinite;
     -moz-animation: blinking 0.5s infinite;
     -o-animation: blinking 0.5s infinite;
@@ -49,7 +47,7 @@ body {
 }
 
 .intro {
-    /* display: block; */
+    /* display: none; */
     position: absolute;
     z-index: 2;
     background: rgba(0, 0, 0, 0.5);
@@ -104,7 +102,6 @@ button:focus {
     width: 100%;
     /* height: 100vh; */
     /* border: 2px solid gold; */
-
 }
 
 h1 {
@@ -178,7 +175,7 @@ h2 {
     transform: translate(-50%, 0%);
     display: none;
     margin-top: 50px;
-    text-align: right;
+    text-align: center;
     font-size: 17px;
     width: 40%;
 }
@@ -223,15 +220,17 @@ h2 {
 @media (max-width: 768px) {
     #navdiv {
         width: 100%;
-        margin: 1em 0 0 0 ;
+        margin: 1em 0 0 0;
     }
     #imgBox {
         width: 90%;
     }
-    
     .intro img {
         height: 15vh;
         margin: 0 2vh;
     }
-
+    .introdes-main, .introdes-lab {
+        width: 80%;
+        font-size: 10px;
+    }
 }

@@ -62,6 +62,55 @@
             }
         }
 
+        var touchtimeMain = 0;
+        var touchtimeLab = 0;
+
+
+        $(function () {
+            console.log('a');
+            if (window.innerWidth < 768) {
+                document.getElementById('mm').onclick = function () {
+                    touchtimeMain += 1;
+                    if (touchtimeMain === 1) {
+                        showdes_main();
+                        hidedes();
+                        touchtimeLab = 0;
+                    } else if (touchtimeMain === 2) {
+                        //redirect to main webpage
+                    }
+                }
+                document.getElementById('tt').onclick = function () {
+                    touchtimeLab += 1;
+                    if (touchtimeLab === 1) {
+                        showdes();
+                        hidedes_main();
+                        touchtimeMain = 0;
+                    } else if (touchtimeLab === 2) {
+                        introFadeOut();
+                    }
+                }
+            } else {
+                document.getElementById('mm').onmouseover = function () {
+                    showdes_main();
+                }
+                document.getElementById('mm').onmouseout = function () {
+                    hidedes_main();
+                }
+                document.getElementById('mm').onclick = function () {
+                    //redirect to main webpage
+                }
+                document.getElementById('tt').onmouseover = function () {
+                    showdes();
+                }
+                document.getElementById('tt').onmouseout = function () {
+                    hidedes();
+                }
+                document.getElementById('tt').onclick = function () {
+                    introFadeOut();
+                }
+            }
+        })
+
     </script>
 
 
@@ -73,10 +122,8 @@
 
     <div class="intro">
         <div class="animated fadeInDown" style="margin-top: 25vh; text-align:center;">
-            <a href="http://gmens-middle.herokuapp.com"><img class src="/img/gm-logo-color.png" onmouseout="hidedes_main();"
-                    onmouseover="showdes_main();" style="display: inline-block;"> </a>
-            <img src="/img/gm-lab-logo-white.png" onmouseout="hidedes();" onmouseover="showdes();"
-                onclick="introFadeOut();" style=" display: inline-block;">
+            <img id=mm src="/img/gm-logo-color.png" style="display: inline-block;">
+            <img id="tt" src="/img/gm-lab-logo-white.png" style="display: inline-block;">
         </div>
 
         <div class="introdes-main">
@@ -87,6 +134,24 @@
             <p class="lang" style="line-height: 1.3em;" key="introdes-lab"></p>
         </div>
     </div>
+
+    <!-- 
+    <div class="intro">
+        <div class="animated fadeInDown" style="margin-top: 25vh; text-align:center;">
+            <a href="http://gmens-middle.herokuapp.com"><img class src="/img/gm-logo-color.png" onmouseout="hidedes_main();"
+                    onmouseover="showdes_main();" style="display: inline-block;"> </a>
+            <img src="/img/gm-lab-logo-white.png" onmouseout="hidedes();" onmouseover="showdes();" 
+                onclick="introFadeOut();" style=" display: inline-block;">
+        </div>
+
+        <div class="introdes-main">
+            <p class="lang" style="line-height: 1.3em;" key="introdes-main"></p>
+        </div>
+
+        <div class="introdes-lab">
+            <p class="lang" style="line-height: 1.3em;" key="introdes-lab"></p>
+        </div>
+    </div> -->
 
     <!-- read url function for image-->
     <script>
@@ -184,6 +249,8 @@
             introFadeOut();
         }
     </script>
+
+
 </body>
 
 <script src="lib/threeGeoJSON.js"></script>
