@@ -205,24 +205,29 @@
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
-                    // previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
-                    previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                    // previewBoxCube.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
+                    previewBoxCube.scale.x = 1;
+                    previewBoxCube.scale.y = previewBoxTexture.image.height / previewBoxTexture.image.width;
+                    // previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
                 } else {
                     // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
-                    previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                    previewBoxCube.scale.x = previewBoxTexture.image.width / previewBoxTexture.image.height;
+                    previewBoxCube.scale.y = 1;
+
+                    // previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
                 }
 
                 previewBoxTexture.minFilter = THREE.LinearFilter;
-                
+
 
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-            
+
             preview = true;
             // console.log('true');
         } else if (loading === false) {
-            
+
             previewBoxBorderMaterial.opacity = 0;
             previewBoxMaterial.opacity = 0;
             preview = false;
@@ -261,7 +266,7 @@
         previewBoxCube.translateX(1.7);
         previewBoxCube.translateY(-0.5);
         previewBoxCube.translateZ(-2);
-        
+
         if (!rotationoff) {
             planet.rotation.y -= 0.001;
         }
