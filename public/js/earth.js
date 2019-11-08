@@ -155,7 +155,7 @@
     planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     //planet.add(transpSphere);
-    scene.add(testBox);
+    // scene.add(testBox);
 
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
@@ -229,7 +229,7 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
-
+            console.log('true');
             preview = true;
         } else if (loading === false) {
             previewBoxBorderMaterial.opacity = 0;
