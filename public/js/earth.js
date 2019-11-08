@@ -205,14 +205,11 @@
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
                 if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
-                    console.log('a')
                     // previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
                     previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
-                    // previewBoxBorderCube.matrix.makeScale()
                 } else {
                     // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
                     previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
-                    console.log('b')
                 }
 
                 previewBoxTexture.minFilter = THREE.LinearFilter;
@@ -254,13 +251,13 @@
         TWEEN.update(); //TWEENing
         previewBoxBorderCube.position.copy(camera.position)
         previewBoxBorderCube.rotation.copy(camera.rotation)
-        // previewBoxBorderCube.updateMatrix();
+        previewBoxBorderCube.updateMatrix();
         previewBoxBorderCube.translateX(1.7);
         previewBoxBorderCube.translateY(-0.5);
         previewBoxBorderCube.translateZ(-2);
         previewBoxCube.position.copy(camera.position)
         previewBoxCube.rotation.copy(camera.rotation)
-        // previewBoxCube.updateMatrix();
+        previewBoxCube.updateMatrix();
         previewBoxCube.translateX(1.7);
         previewBoxCube.translateY(-0.5);
         previewBoxCube.translateZ(-2);
