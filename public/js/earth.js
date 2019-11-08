@@ -144,7 +144,7 @@
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
     planet.add(canvasSphere); //this cause slow
-    //planet.add(selCanvasSphere);
+    planet.add(selCanvasSphere);
     //planet.add(transpSphere);
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
@@ -204,17 +204,18 @@
     function displayPreview() {
         if (loading === true && preview === false) {
             previewBoxMaterial.map = previewBoxTexture.load(previewAddress, function (previewBoxTexture) {
-                console.log('loaded')
-                // if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
-                //     previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
-                //     previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
-                // } else {
-                //     previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
-                //     previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
-                // }
+                if (previewBoxTexture.image.width >= previewBoxTexture.image.height) {
+                    console.log('a')
+                    // previewBoxCube.scale.set(1, previewBoxTexture.image.height / previewBoxTexture.image.width);
+                    // previewBoxBorderCube.scale.set(1.1, (previewBoxTexture.image.height / previewBoxTexture.image.width) * 1.1);
+                } else {
+                    // previewBoxCube.scale.set(previewBoxTexture.image.width / previewBoxTexture.image.height, 1);
+                    // previewBoxBorderCube.scale.set((previewBoxTexture.image.width / previewBoxTexture.image.height) * 1.1, 1.1);
+                    console.log('b')
+                }
 
                 previewBoxTexture.minFilter = THREE.LinearFilter;
-                console.log('loaded2')
+                
 
             })
             previewBoxBorderMaterial.opacity = 0.8;
