@@ -22,7 +22,7 @@
 
     //New Renderer
     var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth-20, window.innerHeight);
+    renderer.setSize(window.innerWidth - 20, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     // document.body.appendChild(renderer.domElement);
 
@@ -121,8 +121,8 @@
 
         }
     });
-    
-    
+
+
 
 
 
@@ -143,19 +143,20 @@
     var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
-        //Create test box
-        var testboxGeomtry = new THREE.BoxGeometry(10, 10, 0);
-        var testBoxMaterial = new THREE.MeshBasicMaterial({
-            color: 'red'
-        });
-    
-        var testBox = new THREE.Mesh(testboxGeomtry, testBoxMaterial);
-    
+    //Create test box
+    var testboxGeomtry = new THREE.BoxGeometry(10, 10, 0);
+    var testBoxMaterial = new THREE.MeshBasicMaterial({
+        color: 'red',
+        opacity: 0.0
+    });
+
+    var testBox = new THREE.Mesh(testboxGeomtry, testBoxMaterial);
+
 
     planet.add(canvasSphere); //this cause slow
     //planet.add(selCanvasSphere);
     //planet.add(transpSphere);
-    // scene.add(testBox);
+    planet.add(testBox);
 
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
@@ -229,16 +230,18 @@
             })
             previewBoxBorderMaterial.opacity = 0.8;
             previewBoxMaterial.opacity = 0.9;
+            testBoxMaterial.opacity = 1.0
             console.log('true');
             preview = true;
         } else if (loading === false) {
             previewBoxBorderMaterial.opacity = 0;
             previewBoxMaterial.opacity = 0;
+            testBoxMaterial.opacity = 0.0;
             preview = false;
         }
     }
 
-    
+
     globe.appendChild(renderer.domElement);
     scene.add(planet);
 
@@ -246,7 +249,7 @@
 
     scene.add(previewBoxCube);
     scene.add(previewBoxBorderCube);
-    
+
 
 
 
