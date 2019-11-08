@@ -161,12 +161,10 @@
     //Create preview border box
     var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
-        // transparent: true,
-        // opacity: 0,
-        // color: 'black',
-        // depthTest: true,
+        transparent: true,
+        opacity: 0,
         color: 'red',
-        alphaTest: 0.5
+        depthTest: true,
     });
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
@@ -250,8 +248,6 @@
 
     scene.add(previewBoxCube);
     scene.add(previewBoxBorderCube);
-    scene.add(testBox);
-
 
 
     //Render the image
