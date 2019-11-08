@@ -52,7 +52,7 @@
         side: THREE.DoubleSide
     });
 
-    var selCanvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
+    var selCanvasSphereGeometry = new THREE.SphereBufferGeometry(10, 64, 64);
 
     var selCanvasSphere = new THREE.Mesh(selCanvasSphereGeometry, selCanvasMaterial);
 
@@ -75,7 +75,7 @@
         needsUpdate: true
     });
 
-    var canvasSphereGeometry = new THREE.SphereGeometry(10, 64, 64);
+    var canvasSphereGeometry = new THREE.SphereBufferGeometry(10, 64, 64);
 
     var canvasSphere = new THREE.Mesh(canvasSphereGeometry, canvasMaterial)
 
@@ -140,14 +140,14 @@
         alphaTest: 0.5,
     });
 
-    var transpGeometry = new THREE.SphereGeometry(10, 64, 64);
+    var transpGeometry = new THREE.SphereBufferGeometry(10, 64, 64);
     var transpSphere = new THREE.Mesh(transpGeometry, transpMaterial);
 
     planet.add(canvasSphere); //this cause slow
     planet.add(selCanvasSphere);
     //planet.add(transpSphere);
     //Create preview border box
-    var previewBoxBorderGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
+    var previewBoxBorderGeometry = new THREE.PlaneBufferGeometry(1.5, 1.5, 0);
     var previewBoxBorderMaterial = new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
@@ -157,7 +157,7 @@
     var previewBoxBorderCube = new THREE.Mesh(previewBoxBorderGeometry, previewBoxBorderMaterial);
 
     //Create preview box
-    var previewBoxGeometry = new THREE.PlaneGeometry(1.5, 1.5, 0);
+    var previewBoxGeometry = new THREE.PlaneBufferGeometry(1.5, 1.5, 0);
     var previewBoxTexture = new THREE.TextureLoader();
     var previewBoxMaterial = new THREE.MeshBasicMaterial({
         map: previewBoxTexture.load(''),
@@ -260,7 +260,7 @@
         previewBoxBorderCube.translateZ(-2);
         previewBoxCube.position.copy(camera.position)
         previewBoxCube.rotation.copy(camera.rotation)
-        previewBoxCube.updateMatrix();
+        // previewBoxCube.updateMatrix();
         previewBoxCube.translateX(1.7);
         previewBoxCube.translateY(-0.5);
         previewBoxCube.translateZ(-2);
