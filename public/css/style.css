@@ -1,4 +1,5 @@
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 body {
     background-color: black;
     margin: auto 0;
@@ -20,7 +21,7 @@ body {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    display: block;
+    display: none;
     background-color: white;
     -webkit-animation: blinking 0.5s infinite;
     -moz-animation: blinking 0.5s infinite;
@@ -47,7 +48,7 @@ body {
 }
 
 .intro {
-    /* display: none; */
+    display: none; 
     position: absolute;
     z-index: 2;
     background: rgba(0, 0, 0, 0.5);
@@ -77,7 +78,8 @@ p {
 }
 
 .kren {
-    display: inline-block;
+    display:none;
+    /* display: inline-block; */
     float: right;
     position: relative;
     top: 10px;
