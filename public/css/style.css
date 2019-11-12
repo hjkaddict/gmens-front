@@ -21,7 +21,7 @@ body {
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    display: none;
+    display: block;
     background-color: white;
     -webkit-animation: blinking 0.5s infinite;
     -moz-animation: blinking 0.5s infinite;
@@ -48,7 +48,7 @@ body {
 }
 
 .intro {
-    display: none; 
+    display: block; 
     position: absolute;
     z-index: 2;
     background: rgba(0, 0, 0, 0.5);
